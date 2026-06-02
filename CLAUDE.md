@@ -170,6 +170,11 @@ async () => {
       return m ? m[1].trim() : null;
     };
     const cc = g(/Kubikaža\s*([\d.]+)\s*cm/i);
+    // specifična snaga (KS/l) — atmo ≈ 50–84, turbo ≈ 85+. PRAG < 85 (ne < 78!):
+    // moderan atmo 2.0 (Theta II 2.0 MPI, Ecotec 1.8) ide do ~80–83 KS/l i NE sme da ispadne.
+    const ks = (txt.match(/\((\d{2,3})\s*KS\)/i) || txt.match(/(\d{2,3})\s*KS/i) || [])[1];
+    const ccNum = cc ? parseFloat(cc.replace(/\./g, "")) : null;
+    const spec = ks && ccNum ? +(parseInt(ks) / (ccNum / 1000)).toFixed(0) : null;
     return {
       title: doc.title.split("|")[0].trim().slice(0, 70),
       cena: (txt.match(/([\d.]+)\s*€/) || [])[1] || null,
@@ -188,6 +193,8 @@ async () => {
       ),
       vlasnik:
         g(/Broj vlasnika\s*(\d+)/i) || (/Prvi vlasnik/i.test(txt) ? "1" : null),
+      specificna_snaga: spec, // KS/l — < 85 = verovatno atmo, 85+ = verovatno turbo
+      atmo_po_specifici: spec != null ? spec < 85 : null,
       // hintovi (orijentir, ne dokaz): potvrdi kubikažom + znanjem o motoru
       turbo_hint:
         /\b(tsi|tfsi|tce|t-?gdi|ecoboost|turbo|tdi|hdi|dci|crdi|cdti|d-?4d)\b/i.test(
@@ -228,3 +235,14 @@ Provereni primeri zašto je nužno:
 
   **Pravilo:** turbo često = manja kubikaža + 6/7 brz ili DSG; atmo MPI ≈ "okrugla"
   kubikaža (1398/1591/1598) + 5/6 manuelni. `turbo_hint`/`direktno_hint` su samo orijentir.
+
+**Specifična snaga (KS/l) — brzo odsejavanje, ali PAZI na prag:**
+`paVerify` vraća `specificna_snaga` (KS/l) i `atmo_po_specifici`. Heuristika:
+- **< 85 KS/l → verovatno ATMO**, **85+ → verovatno turbo.**
+- ‼️ **PRAG JE < 85, NE < 78.** Raniji prag od 78 je GREŠKOM izbacivao legitimne
+  atmo motore veće kubikaže. Provereni promašaji koje prag 78 odseca, a 85 ispravno zadržava:
+  - **Hyundai ix35 2.0 DOHC** (Theta II **G4KD**, MPI, lanac): 1998 cm³ / 165 KS = **83 KS/l** → ATMO ✅
+  - **Chevrolet Orlando 1.8** (Ecotec **F18D4**, MPI, lanac, 7 sedišta): 1796 cm³ / 141 KS = **79 KS/l** → ATMO ✅
+- KS/l je SAMO brzi orijentir — uvek potvrdi **kubikažom + ubrizgavanjem (MPI vs GDI) + lancem**.
+  Pravi GDI (npr. ix35/Sportage/Ceed **1.6 GDI**, 135 KS) ostaje izbačen jer je direktno ubrizgavanje,
+  bez obzira na KS/l.
