@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAR-RESULTS — rang-lista kandidata</title>
+  <style>
+    :root, [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+    header h1 { font-size: 1.9rem; margin: 0 0 6px; }
+    header .date { color: var(--muted); font-size: 0.9rem; }
+    .intro {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 24px 0;
+    }
+    .intro strong { color: var(--gold); }
+    .intro code {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    h2 { margin-top: 48px; font-size: 1.35rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { background: var(--card2); color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--hover); }
+    body { transition: background 0.2s, color 0.2s; }
+
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    .rank { font-weight: 800; color: var(--gold); font-size: 1.05rem; text-align: center; }
+    .rank.low { color: var(--muted); }
+    .price { font-weight: 700; color: var(--green); white-space: nowrap; }
+    code, .mono { font-family: "Cascadia Code", "Consolas", monospace; }
+    td strong { color: var(--text); }
+
+    .excluded {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--red);
+      border-radius: 12px;
+      padding: 8px 24px;
+      margin: 20px 0;
+    }
+    .excluded li { margin: 10px 0; }
+    .excluded strong { color: var(--red); }
+
+    .note {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 24px 24px;
+      margin: 20px 0;
+    }
+    .note ol { padding-left: 20px; }
+    .note .lead { color: var(--gold); font-weight: 700; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    .compare { font-size: 0.9rem; }
+    .compare td, .compare th { text-align: center; }
+    .compare td:first-child, .compare th:first-child { text-align: left; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">🌙</span><span id="themeLabel">Tamna</span>
+  </button>
+<div class="wrap">
+
+  <header>
+    <h1>CAR-RESULTS — rang-lista svih kandidata</h1>
+    <div class="date">ažurirano 2026-06-03</div>
+  </header>
+
+  <div class="intro">
+    <p>Jedinstvena lista <strong>od najboljeg do najgoreg izbora</strong> za kupca (prostor + pouzdanost +
+    niski troškovi, 4–8k €, samo benzin). <strong>GDI je punopravna opcija</strong> (doplata na održavanju
+    je mala, ~30–60 €/god; vidi <code>teorija/mpi-vs-gdi.md</code>). Svi motori verifikovani preko <code>paVerify</code>
+    (kubikaža + menjač + snaga), ne po naslovu.</p>
+    <p><strong>Kriterijum rangiranja:</strong> prostor + pouzdanost/jednostavnost motora (atmo, lanac) +
+    stanje (km/godište) + odnos cene i vrednosti. Turbo i CNG/TNG su isključeni (dno liste).</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rang</th>
+        <th>Auto</th>
+        <th>Salon (lokacija)</th>
+        <th>Cena</th>
+        <th>God./km</th>
+        <th>Motor</th>
+        <th>Zašto baš tu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rank">1</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc" target="_blank">Hyundai ix35 2.0 DOHC</a></td>
+        <td>AUTO MG COMMERCE, Niš</td>
+        <td class="price">7.990 €</td>
+        <td>2011 / 174k</td>
+        <td>1998 cm³, 165 KS, <strong>MPI</strong></td>
+        <td>Najviše prostora + snage, najjednostavniji MPI, najniža km od ix35-ova. Najbolji sveukupno.</td>
+      </tr>
+      <tr>
+        <td class="rank">2</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29162014/nissan-qashqai-b-e-n-z-i-n" target="_blank">Nissan Qashqai 1.6</a></td>
+        <td>A.C.M. Plus, Niš</td>
+        <td class="price">6.999 €</td>
+        <td>2011 / 189k</td>
+        <td>1598 cm³, 114 KS, <strong>MPI</strong> (lanac)</td>
+        <td>Prostran krosover, MPI + lanac, <strong>najbolja vrednost</strong> — jeftiniji i manje km od #3 (isti auto).</td>
+      </tr>
+      <tr>
+        <td class="rank">3</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/27876512/nissan-qashqai-16-urban-style" target="_blank">Nissan Qashqai 1.6 Urban Style</a></td>
+        <td>Auto NIŠ, Niš</td>
+        <td class="price">7.350 €</td>
+        <td>2011 / 205k</td>
+        <td>1598 cm³, 117 KS, <strong>MPI</strong> (lanac)</td>
+        <td>Isti odličan Qashqai kao #2, ali 350 € skuplji i 16k km više.</td>
+      </tr>
+      <tr>
+        <td class="rank">4</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/28387967/hyundai-ix35-16-gdi" target="_blank">Hyundai ix35 1.6 GDI</a></td>
+        <td>(Niš)</td>
+        <td class="price">7.100 €</td>
+        <td>2011 / 176k</td>
+        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>Isti prostran SUV kao #1, jeftiniji, niska km; GDI = malo jača/efikasnija varijanta.</td>
+      </tr>
+      <tr>
+        <td class="rank">5</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29482508/hyundai-ix35-16-gdi-bluedrive" target="_blank">Hyundai ix35 1.6 GDi BlueDrive</a></td>
+        <td>MS CARS, Niš</td>
+        <td class="price">7.650 €</td>
+        <td>2011 / 197k</td>
+        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>Isti GDI ix35, ali skuplji i veća km od #4.</td>
+      </tr>
+      <tr>
+        <td class="rank">6</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/28834855/kia-sportage-16-gdi" target="_blank">Kia Sportage 1.6 GDI</a></td>
+        <td>(Niš)</td>
+        <td class="price">7.950 €</td>
+        <td>2011 / 197k</td>
+        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>Sestra ix35 (ista platforma/motor), prostran SUV; najskuplji od GDI SUV-ova.</td>
+      </tr>
+      <tr>
+        <td class="rank">7</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29304589/kia-ceed-sw-b-e-n-z-i-n" target="_blank">Kia cee'd SW karavan 1.6</a></td>
+        <td>A.C.M. Plus, Niš</td>
+        <td class="price">5.599 €</td>
+        <td>2014 / 230k</td>
+        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td><strong>Najjeftiniji + jedini karavan-GDI</strong> = najviše prtljažnika za male pare. Mana: 230k km.</td>
+      </tr>
+      <tr>
+        <td class="rank">8</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/27715921/hyundai-i30-14" target="_blank">Hyundai i30 1.4 CW karavan</a></td>
+        <td>privatni (van Niša)</td>
+        <td class="price">6.200 €</td>
+        <td>2013 / 209k</td>
+        <td>1396 cm³, 101 KS, <strong>MPI</strong></td>
+        <td>Karavan, najjeftiniji delovi, 1 vlasnik. Mana: slab 1.4 za teret, visoka km, nije u Nišu.</td>
+      </tr>
+      <tr>
+        <td class="rank">9</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/28827180/kia-ceed" target="_blank">Kia cee'd 1.6 (hečbek)</a></td>
+        <td>KIA VELJAAUTO, Niš</td>
+        <td class="price">7.899 €</td>
+        <td>2014 / <strong>136k</strong></td>
+        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>Najmlađi/najmanja km od korejaca, ali <strong>hečbek</strong> (manje prostora) i skuplji.</td>
+      </tr>
+      <tr>
+        <td class="rank">10</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29471422/citroen-c4-picasso" target="_blank">Citroën C4 Picasso 1.6 VTi</a></td>
+        <td>(Niš)</td>
+        <td class="price">6.600 €</td>
+        <td>2014 / 201k</td>
+        <td>1598 cm³, 120 KS, MPI</td>
+        <td><strong>Najviše prostora (pravi MPV)</strong>, ali motor <strong>EP6</strong> rizičan (lanac/ulje) → samo uz servisnu istoriju.</td>
+      </tr>
+      <tr>
+        <td class="rank">11</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29114589/dacia-sandero-10-sce" target="_blank">Dacia Sandero 1.0 SCe</a></td>
+        <td>(Niš)</td>
+        <td class="price">6.200 €</td>
+        <td><strong>2019 / 98k</strong></td>
+        <td>999 cm³, 73 KS, <strong>atmo</strong></td>
+        <td><strong>Najmlađi + najmanja km + najjeftinije održavanje</strong>, ali B-segment (mali). Izbor ako prostor nije presudan.</td>
+      </tr>
+      <tr>
+        <td class="rank">12</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/29357107/nissan-qashqai-16-16v-acentanov" target="_blank">Nissan Qashqai 1.6 Acenta</a></td>
+        <td>Petrović, Niš</td>
+        <td class="price">5.990 €</td>
+        <td>2009 / <strong>238k</strong></td>
+        <td>1598 cm³, ~114 KS, MPI</td>
+        <td>Prostran atmo SUV i jeftin, ali <strong>najstariji + najviše km</strong>.</td>
+      </tr>
+      <tr>
+        <td class="rank">13</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/28569024/peugeot-308-active" target="_blank">Peugeot 308 1.2 VTi 82</a></td>
+        <td>MS Auto, Niš</td>
+        <td class="price">7.790 €</td>
+        <td>2016 / 110k</td>
+        <td>1199 cm³, 82 KS, <strong>atmo</strong> (VTi)</td>
+        <td>Mlad i mala km, atmo (ne PureTech turbo!), ali <strong>slab 82 KS</strong> + hečbek, a skup.</td>
+      </tr>
+      <tr>
+        <td class="rank">14</td>
+        <td><a href="https://www.polovniautomobili.com/auto-oglasi/26596519/opel-meriva" target="_blank">Opel Meriva 1.4</a></td>
+        <td>(Niš)</td>
+        <td class="price">5.300 €</td>
+        <td>2014 / 230k</td>
+        <td>1398 cm³, 101 KS, MPI</td>
+        <td>Atmo MPI i jeftina, ali mini-MPV (malo prostora) + visoka km.</td>
+      </tr>
+      <tr>
+        <td class="rank low">15</td>
+        <td>Opel Astra J 1.4 NA / mali atmo hečbeci</td>
+        <td>razni saloni</td>
+        <td class="price">4.850–5.500 €</td>
+        <td>2010–2014</td>
+        <td>1.4 MPI, atmo</td>
+        <td>Rezerva: pouzdani i jeftini, ali <strong>nisu porodično prostrani</strong> (i20, C3, Corsa, Adam, Astra).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>⛔ NE KUPOVATI (isključeno po kriterijumu)</h2>
+  <div class="excluded">
+    <ul>
+      <li><strong>Turbo benzin</strong> (zamke koje po naslovu liče na atmo, potvrđeno kubikažom): Opel Meriva/Astra
+        <strong>1364 cm³ = 1.4 Turbo</strong>, C4 Picasso 1.6i <strong>156 KS = THP</strong>, VW/Škoda <strong>TSI</strong>, Renault/Dacia
+        <strong>TCe</strong>, Peugeot/Ford <strong>PureTech/EcoBoost</strong>. → veći troškovi održavanja (turbina, dvomaseni).</li>
+      <li><strong>CNG/TNG</strong>: Z.Ristic „eco fuel/metan" (Passat, Touran, Panda), VD Auto Ford Fiesta (TNG).</li>
+      <li><strong>Dizel</strong>: otpada za malu/gradsku kilometražu (DPF se ne regeneriše).</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <h2>Napomena: zašto je #1 (ix35 2.0 MPI) iznad #4 i #5 (ix35 1.6 GDI)</h2>
+  <div class="note">
+    <p>Sva tri su <strong>isti auto spolja</strong> (ix35 SUV, isti prostor, ista pouzdanost karoserije/menjača) —
+    razlika je skoro samo u <strong>motoru</strong>, i tu 2.0 MPI dobija po kupčevim prioritetima.</p>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th></th>
+          <th>#1 ix35 <strong>2.0 MPI</strong></th>
+          <th>#4 ix35 1.6 GDI</th>
+          <th>#5 ix35 1.6 GDi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Cena</td><td>7.990 €</td><td>7.100 €</td><td>7.650 €</td></tr>
+        <tr><td>God./km</td><td>2011 / <strong>174k</strong></td><td>2011 / 176k</td><td>2011 / <strong>197k</strong></td></tr>
+        <tr><td>Motor</td><td>1998 cm³, <strong>165 KS</strong>, MPI</td><td>1591 cm³, 135 KS, GDI</td><td>1591 cm³, 135 KS, GDI</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lead">Zašto #1 vodi:</p>
+    <ol>
+      <li><strong>Jednostavnost = cilj #1.</strong> 2.0 je <strong>MPI</strong> → nema koksa na ventilima ni visokopritisne pumpe.
+        GDI baš taj koks stvara, a <strong>najgore na kratkim gradskim relacijama</strong> — što je tačno ovaj kupac.
+        GDI-jeva jedina realna mana pogađa ovog vozača direktno; MPI je nema.</li>
+      <li><strong>Snaga (165 vs 135 KS).</strong> 2.0 lakše vuče pun SUV s decom i prtljagom — manje „cimanja",
+        opuštenije, duži vek (motor ne radi na granici).</li>
+      <li><strong>Stanje.</strong> #1 ima <strong>najmanju km grupe</strong> (174k); #5 je na 197k i skuplji od #4 — zato je #5 ispod #4.</li>
+    </ol>
+
+    <p class="lead">Šta GDI dobija (i zašto je odmah iza, ne otpisan):</p>
+    <ul>
+      <li>#4 je <strong>~900 € jeftiniji</strong> uz praktično istu km → najjača „value" alternativa.</li>
+      <li>GDI troši malo manje i ima nešto niži porez. <strong>Ali</strong> na 6.000 km/god ta ušteda je ≈ nula
+        (poništi se sa GDI doplatom održavanja), pa ne prevagne.</li>
+    </ul>
+
+    <p><strong>Zaključak:</strong> razlika #1 vs #4 je realno mala — ako je budžet tesan ili je baš taj primerak
+    bolji po stanju, <strong>#4 je sasvim opravdan</strong>. Ali po navedenim prioritetima (pouzdanost +
+    jednostavnost + niski troškovi, gradska vožnja) <strong>2.0 MPI je „bezbrižnija" varijanta</strong>, pa je
+    na vrhu. Jedina objektivna mana #1: <strong>veća potrošnja i nešto viši porez</strong> (2.0 vs 1.6) — na
+    maloj kilometraži sitnica.</p>
+  </div>
+
+</div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>
