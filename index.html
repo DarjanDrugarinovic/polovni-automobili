@@ -82,6 +82,94 @@
     tbody tr:hover { background: var(--hover); }
     body { transition: background 0.2s, color 0.2s; }
 
+    /* ===== Kartični prikaz rang-liste (mobilni) ===== */
+    table.ranking { background: transparent; border-radius: 0; overflow: visible; font-size: 1rem; }
+    table.ranking thead { display: none; }
+    table.ranking, table.ranking tbody, table.ranking tr, table.ranking td { display: block; width: 100%; }
+    table.ranking tr {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+    }
+    table.ranking tr:hover { background: var(--card); }
+    table.ranking td {
+      border: none;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+      text-align: right;
+    }
+    table.ranking td::before {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: left;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    table.ranking td:nth-of-type(1)::before { content: "Rang"; }
+    table.ranking td:nth-of-type(3)::before { content: "Salon"; }
+    table.ranking td:nth-of-type(4)::before { content: "Cena"; }
+    table.ranking td:nth-of-type(5)::before { content: "God. / km"; }
+    table.ranking td:nth-of-type(6)::before { content: "Kubikaža"; }
+    table.ranking td:nth-of-type(7)::before { content: "Snaga"; }
+    table.ranking td:nth-of-type(8)::before { content: "Motor"; }
+    table.ranking td:nth-of-type(9)::before { content: "Zašto baš tu"; }
+    /* Zaglavlje kartice: [rang] naziv u istom redu */
+    table.ranking td:nth-of-type(1) {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: auto;
+      min-width: 2.2em;
+      height: 2.2em;
+      padding: 0 0.5em;
+      background: var(--card2);
+      border-radius: 999px;
+      font-size: 1rem;
+    }
+    table.ranking td:nth-of-type(1)::before { display: none; }
+    table.ranking td:nth-of-type(2) {
+      display: flex;
+      align-items: center;
+      min-height: 2.2em;
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-align: left;
+      justify-content: flex-start;
+      padding: 14px 16px 8px;
+      padding-left: calc(16px + 2.2em + 12px);
+    }
+    table.ranking td:nth-of-type(2)::before { display: none; }
+    table.ranking td:nth-of-type(3) {
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+    /* Poslednji red: "Zašto" — pun tekst ispod labela */
+    table.ranking td:nth-of-type(9) {
+      flex-direction: column;
+      text-align: left;
+      gap: 4px;
+      border-top: 1px solid var(--border);
+      margin-top: 6px;
+      padding-top: 12px;
+      color: var(--muted);
+    }
+
     .theme-toggle {
       position: fixed;
       bottom: 22px;
@@ -154,7 +242,7 @@
     stanje (km/godište) + odnos cene i vrednosti. Turbo i CNG/TNG su isključeni (dno liste).</p>
   </div>
 
-  <table>
+  <table class="ranking">
     <thead>
       <tr>
         <th>Rang</th>
@@ -162,6 +250,8 @@
         <th>Salon (lokacija)</th>
         <th>Cena</th>
         <th>God./km</th>
+        <th>Kubikaža</th>
+        <th>Snaga</th>
         <th>Motor</th>
         <th>Zašto baš tu</th>
       </tr>
@@ -173,7 +263,9 @@
         <td>AUTO MG COMMERCE, Niš</td>
         <td class="price">7.990 €</td>
         <td>2011 / 174k</td>
-        <td>1998 cm³, 165 KS, <strong>MPI</strong></td>
+        <td>1998 cm³</td>
+        <td>165 KS</td>
+        <td><strong>MPI</strong></td>
         <td>Najviše prostora + snage, najjednostavniji MPI, najniža km od ix35-ova. Najbolji sveukupno.</td>
       </tr>
       <tr>
@@ -182,7 +274,9 @@
         <td>A.C.M. Plus, Niš</td>
         <td class="price">6.999 €</td>
         <td>2011 / 189k</td>
-        <td>1598 cm³, 114 KS, <strong>MPI</strong> (lanac)</td>
+        <td>1598 cm³</td>
+        <td>114 KS</td>
+        <td><strong>MPI</strong> (lanac)</td>
         <td>Prostran krosover, MPI + lanac, <strong>najbolja vrednost</strong> — jeftiniji i manje km od #3 (isti auto).</td>
       </tr>
       <tr>
@@ -191,7 +285,9 @@
         <td>Auto NIŠ, Niš</td>
         <td class="price">7.350 €</td>
         <td>2011 / 205k</td>
-        <td>1598 cm³, 117 KS, <strong>MPI</strong> (lanac)</td>
+        <td>1598 cm³</td>
+        <td>117 KS</td>
+        <td><strong>MPI</strong> (lanac)</td>
         <td>Isti odličan Qashqai kao #2, ali 350 € skuplji i 16k km više.</td>
       </tr>
       <tr>
@@ -200,7 +296,9 @@
         <td>(Niš)</td>
         <td class="price">7.100 €</td>
         <td>2011 / 176k</td>
-        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>1591 cm³</td>
+        <td>135 KS</td>
+        <td><strong>GDI</strong></td>
         <td>Isti prostran SUV kao #1, jeftiniji, niska km; GDI = malo jača/efikasnija varijanta.</td>
       </tr>
       <tr>
@@ -209,7 +307,9 @@
         <td>MS CARS, Niš</td>
         <td class="price">7.650 €</td>
         <td>2011 / 197k</td>
-        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>1591 cm³</td>
+        <td>135 KS</td>
+        <td><strong>GDI</strong></td>
         <td>Isti GDI ix35, ali skuplji i veća km od #4.</td>
       </tr>
       <tr>
@@ -218,7 +318,9 @@
         <td>(Niš)</td>
         <td class="price">7.950 €</td>
         <td>2011 / 197k</td>
-        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>1591 cm³</td>
+        <td>135 KS</td>
+        <td><strong>GDI</strong></td>
         <td>Sestra ix35 (ista platforma/motor), prostran SUV; najskuplji od GDI SUV-ova.</td>
       </tr>
       <tr>
@@ -227,7 +329,9 @@
         <td>A.C.M. Plus, Niš</td>
         <td class="price">5.599 €</td>
         <td>2014 / 230k</td>
-        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>1591 cm³</td>
+        <td>135 KS</td>
+        <td><strong>GDI</strong></td>
         <td><strong>Najjeftiniji + jedini karavan-GDI</strong> = najviše prtljažnika za male pare. Mana: 230k km.</td>
       </tr>
       <tr>
@@ -236,7 +340,9 @@
         <td>privatni (van Niša)</td>
         <td class="price">6.200 €</td>
         <td>2013 / 209k</td>
-        <td>1396 cm³, 101 KS, <strong>MPI</strong></td>
+        <td>1396 cm³</td>
+        <td>101 KS</td>
+        <td><strong>MPI</strong></td>
         <td>Karavan, najjeftiniji delovi, 1 vlasnik. Mana: slab 1.4 za teret, visoka km, nije u Nišu.</td>
       </tr>
       <tr>
@@ -245,7 +351,9 @@
         <td>KIA VELJAAUTO, Niš</td>
         <td class="price">7.899 €</td>
         <td>2014 / <strong>136k</strong></td>
-        <td>1591 cm³, 135 KS, <strong>GDI</strong></td>
+        <td>1591 cm³</td>
+        <td>135 KS</td>
+        <td><strong>GDI</strong></td>
         <td>Najmlađi/najmanja km od korejaca, ali <strong>hečbek</strong> (manje prostora) i skuplji.</td>
       </tr>
       <tr>
@@ -254,7 +362,9 @@
         <td>(Niš)</td>
         <td class="price">6.600 €</td>
         <td>2014 / 201k</td>
-        <td>1598 cm³, 120 KS, MPI</td>
+        <td>1598 cm³</td>
+        <td>120 KS</td>
+        <td>MPI</td>
         <td><strong>Najviše prostora (pravi MPV)</strong>, ali motor <strong>EP6</strong> rizičan (lanac/ulje) → samo uz servisnu istoriju.</td>
       </tr>
       <tr>
@@ -263,7 +373,9 @@
         <td>(Niš)</td>
         <td class="price">6.200 €</td>
         <td><strong>2019 / 98k</strong></td>
-        <td>999 cm³, 73 KS, <strong>atmo</strong></td>
+        <td>999 cm³</td>
+        <td>73 KS</td>
+        <td><strong>atmo</strong></td>
         <td><strong>Najmlađi + najmanja km + najjeftinije održavanje</strong>, ali B-segment (mali). Izbor ako prostor nije presudan.</td>
       </tr>
       <tr>
@@ -272,7 +384,9 @@
         <td>Petrović, Niš</td>
         <td class="price">5.990 €</td>
         <td>2009 / <strong>238k</strong></td>
-        <td>1598 cm³, ~114 KS, MPI</td>
+        <td>1598 cm³</td>
+        <td>~114 KS</td>
+        <td>MPI</td>
         <td>Prostran atmo SUV i jeftin, ali <strong>najstariji + najviše km</strong>.</td>
       </tr>
       <tr>
@@ -281,7 +395,9 @@
         <td>MS Auto, Niš</td>
         <td class="price">7.790 €</td>
         <td>2016 / 110k</td>
-        <td>1199 cm³, 82 KS, <strong>atmo</strong> (VTi)</td>
+        <td>1199 cm³</td>
+        <td>82 KS</td>
+        <td><strong>atmo</strong> (VTi)</td>
         <td>Mlad i mala km, atmo (ne PureTech turbo!), ali <strong>slab 82 KS</strong> + hečbek, a skup.</td>
       </tr>
       <tr>
@@ -290,7 +406,9 @@
         <td>(Niš)</td>
         <td class="price">5.300 €</td>
         <td>2014 / 230k</td>
-        <td>1398 cm³, 101 KS, MPI</td>
+        <td>1398 cm³</td>
+        <td>101 KS</td>
+        <td>MPI</td>
         <td>Atmo MPI i jeftina, ali mini-MPV (malo prostora) + visoka km.</td>
       </tr>
       <tr>
@@ -299,7 +417,9 @@
         <td>razni saloni</td>
         <td class="price">4.850–5.500 €</td>
         <td>2010–2014</td>
-        <td>1.4 MPI, atmo</td>
+        <td>1.4 l</td>
+        <td>—</td>
+        <td><strong>atmo</strong> MPI</td>
         <td>Rezerva: pouzdani i jeftini, ali <strong>nisu porodično prostrani</strong> (i20, C3, Corsa, Adam, Astra).</td>
       </tr>
     </tbody>
