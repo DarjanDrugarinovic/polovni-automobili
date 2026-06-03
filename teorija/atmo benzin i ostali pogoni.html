@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atmosferski (atmo) benzin — prednosti i poređenje vrsta pogona</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 90px; }
+    .back { display: inline-block; margin-bottom: 18px; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 1.8rem; margin: 0 0 6px; }
+    .lead { color: var(--muted); margin: 0 0 28px; font-size: 1.05rem; }
+    .lead strong { color: var(--text); }
+    h2 { font-size: 1.3rem; margin: 36px 0 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--card2); color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+    td strong { color: var(--text); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .card.accent { border-left: 4px solid var(--accent); }
+    .card p { margin: 8px 0; }
+    .card ul { margin: 8px 0; padding-left: 20px; }
+    .card li { margin: 6px 0; }
+
+    .verdict {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 24px 0 0;
+    }
+    .verdict strong { color: var(--green); }
+
+    .tag { display: inline-block; font-weight: 700; }
+    .ok { color: var(--green); }
+    .warn { color: var(--gold); }
+    .bad { color: var(--red); }
+
+    h3 { font-size: 1.08rem; margin: 22px 0 8px; color: var(--text); }
+    p { margin: 10px 0; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    ul, ol { margin: 10px 0; padding-left: 22px; }
+    li { margin: 6px 0; }
+    code { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-family: "Cascadia Code","Consolas",monospace; font-size: 0.85em; }
+    blockquote { margin: 16px 0; padding: 12px 18px; background: var(--card2); border-left: 4px solid var(--accent); border-radius: 8px; }
+    blockquote p { margin: 0; }
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+
+  <div class="wrap">
+    <a class="back" href="../index.html">← Nazad na listu automobila</a>
+
+    <h1>Atmosferski (atmo) benzin — prednosti i poređenje vrsta pogona</h1>
+
+    <h2>Prednost atmosferskog benzinca</h2>
+
+    <p>Prednost atmo benzinca je pre svega u <strong>manjem broju skupih delova koji mogu da puknu</strong> —
+    što je tačno cilj kupca (niski troškovi + pouzdanost).</p>
+
+    <h3>1. Nema turbine</h3>
+    <p>Turbina je skupa trošna komponenta (radi na 100.000+ o/min i visokim temperaturama).
+    Kad otkaže — popravka ide u stotinama eura. Atmo motor je nema → ceo taj rizik i trošak otpada.</p>
+
+    <h3>2. Manje opterećen motor = duži vek</h3>
+    <p>Turbo cedi istu snagu iz manje zapremine (npr. 1.2L daje 130 KS) → veći pritisak i temperatura
+    u cilindrima → brže habanje klipova, prstenova, ležajeva. Atmo radi „opuštenije", pa duže traje.</p>
+
+    <h3>3. Jednostavnost = jeftiniji servis</h3>
+    <p>Nema interkulera, wastegate-a, dodatnih senzora pritiska, kompleksnijeg hlađenja/podmazivanja.
+    Manje stvari = manje kvarova = jeftiniji i lakši servis.</p>
+
+    <h3>4. Često ide uz pouzdaniju „opremu"</h3>
+    <p>Atmo benzinci najčešće imaju <strong>razvod lancem</strong> (nema zamene kaiša ~svakih 60–90k km) i
+    <strong>MPI ubrizgavanje</strong> (nema čišćenja kokса kao kod direktnog/GDI). Dodatno obara troškove.</p>
+
+    <h3>5. Tolerantniji na način vožnje i gorivo</h3>
+    <p>Manje osetljiv na kratke gradske relacije, kvalitet ulja/goriva i „hladne" startove.
+    Idealno za malu godišnju kilometražu pretežno po gradu.</p>
+
+    <p><strong>Cena toga:</strong> atmo je „lenjiji" (slabije ubrzanje na preteku) i troši nešto više na otvorenom
+    putu. Za porodicu/grad/dug vek/jeftino održavanje — nebitno, a ušteda na popravkama je velika.</p>
+
+    <blockquote><p>Ukratko: <strong>turbo = performanse iz male zapremine; atmo = mir, dug vek i nizak račun.</strong></p></blockquote>
+
+    <hr>
+
+    <h2>Koje još vrste pogona postoje</h2>
+
+    <p>Na polovniautomobili.com filter „Gorivo" nudi ove vrste (kodovi u <code>CLAUDE.md</code>):</p>
+
+    <h3>1. Turbo benzin (npr. TSI, TFSI, TCe, EcoBoost, T-GDI)</h3>
+    <p>Benzinac sa turbopunjačem (često + direktno ubrizgavanje, „downsizing": 1.0–1.4L).</p>
+    <ul>
+      <li>➕ Više snage iz male zapremine, manja potrošnja na <em>ustaljenoj</em> vožnji, niža masa.</li>
+      <li>➖ Skuplje održavanje: turbina, dvomaseni zamajac, kokс kod GDI, osetljiviji na servis.</li>
+      <li>⚠️ Po naslovu identičan atmo varijanti — razlikuje se <strong>kubikažom</strong> (manja) i često 6/7 brz/DSG.</li>
+    </ul>
+
+    <h3>2. Dizel (TDI, dCi, HDi, CRDi, CDTi, DDiS, Multijet)</h3>
+    <ul>
+      <li>➕ Mali potrošak i ogroman „guranje" (obrtni moment) → odličan za <strong>mnogo kilometara autoputem</strong>.</li>
+      <li>➖ DPF/EGR/AdBlue, dvomaseni, turbina, common-rail dizne — sve skupo.</li>
+      <li>⚠️ <strong>Loš za malu/gradsku kilometražu</strong> — DPF se ne regeneriše → zapušavanje. Isplati se tek 20.000+ km/god.</li>
+    </ul>
+
+    <h3>3. Hibrid (HEV / PHEV)</h3>
+    <p>Benzinac + elektromotor i baterija.</p>
+    <ul>
+      <li>➕ Vrlo mala gradska potrošnja, Toyota hibridi izuzetno pouzdani.</li>
+      <li>➖ Skuplji za kupovinu; baterija je dugoročni (mada redak) trošak; obično van budžeta 4–8k€.</li>
+    </ul>
+
+    <h3>4. Električni (EV)</h3>
+    <p>Samo elektromotor + baterija.</p>
+    <ul>
+      <li>➕ Najniži „trošak po km", gotovo bez servisa motora.</li>
+      <li>➖ U budžetu su samo stari/mali EV-ovi sa istrošenom baterijom; punjenje/domet — kompromisi.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Zašto benzinac može na plin, a dizel ne?</h2>
+
+    <p>(Plin/TNG nije naš izbor, ali objašnjenje je korisno za razumevanje motora.)
+    Ključ je <strong>način paljenja smeše</strong>:</p>
+
+    <ul>
+      <li><strong>Benzinac = paljenje varnicom (svećica).</strong> I benzin i <strong>plin (propan-butan)</strong> se mešaju s vazduhom
+      i pale <strong>varnicom</strong>. Plin ima visok oktanski broj i gori vrlo slično benzinu → motor sa svećicom
+      radi na oba. Plinska instalacija je samo <strong>paralelni sistem</strong> koji ubrizgava gas; svećica i dalje pali.</li>
+      <li><strong>Dizel = paljenje kompresijom (NEMA svećicu).</strong> Jaka kompresija (~16–22:1) sabije vazduh toliko da
+      ubrizgan dizel <strong>sam plane</strong> od vrućine. Potpuno drugačiji princip.</li>
+    </ul>
+
+    <p>Zato:</p>
+    <ul>
+      <li><strong>Dizel u benzinac</strong> → nema dovoljnu kompresiju da plane, varnica ga ne pali kako treba → ne radi.</li>
+      <li><strong>Benzin/plin u dizel</strong> → nema svećice da ih zapali, a benzin oštećuje dizel pumpu (nema podmazivanja).</li>
+    </ul>
+
+    <p>➡️ <strong>Plin ide uz benzinac jer „gori kao benzin" (varnicom).</strong> Dizel je druga vrsta sagorevanja.
+       (Postoje retki dual-fuel dizel+plin sistemi, ali tamo dizel i dalje mora da pali — nije isto.)</p>
+
+    <hr>
+
+    <h2>Šta je za ovog kupca (porodica, niski troškovi, maks. prostor + jednostavnost)</h2>
+
+    <p>🥇 <strong>Atmo benzin</strong> (lanac + <strong>MPI</strong>) — jedini cilj.<br>
+    🚫 <strong>Dizel</strong> — otpada (mala/gradska kilometraža).<br>
+    🚫 <strong>Turbo benzin</strong> — izbegavati zbog viših troškova održavanja.<br>
+    🚫 <strong>TNG/plin</strong> — izbačeno (radi jednostavnosti i prostora).<br>
+    ➖ Hibrid/EV/CNG — van budžeta ili nepraktično.</p>
+
+    <hr>
+
+    <h2>Da li su atmo benzinci slabiji (nemaju snagu)?</h2>
+
+    <p>Iskreno: <strong>da, imaju manje „guranja" pri malim obrtajima</strong> od turba i dizela — ali za porodičnu
+    svakodnevnu vožnju to nije problem.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Atmo benzin</th>
+          <th>Turbo / Dizel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Snaga dolazi</td>
+          <td>postepeno, na višim obrtajima</td>
+          <td>rano i naglo (jak nizak kraj)</td>
+        </tr>
+        <tr>
+          <td>Osećaj</td>
+          <td>„lenjiji" na preteku, traži niži stepen</td>
+          <td>snažan trzaj, lakši pretek/uzbrdica</td>
+        </tr>
+        <tr>
+          <td>Opterećen auto / uzbrdica</td>
+          <td>treba menjati u niži</td>
+          <td>vuče lakše</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Praktično:</p>
+    <ul>
+      <li><strong>Veći atmo (1.6–2.0)</strong> — npr. Qashqai 1.6 (117 KS), ix35 2.0 (150 KS) — sasvim dovoljno, prijatno.</li>
+      <li><strong>Mali atmo (1.0–1.4) u teškom SUV/monovolumenu</strong> — osetno sporiji, češće menjanje brzina.
+      Nije „slab" za grad/svakodnevicu, ali nije živahan.</li>
+    </ul>
+
+    <p>➡️ Svesna trgovina: žrtvuje se malo dinamike za <strong>dug vek i nizak račun održavanja</strong>.
+       Pošto se traži <strong>veliki/porodičan</strong> auto → biraj <strong>veći atmo (1.6–2.0)</strong>, ne najmanji (1.0–1.2).</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teorija — vodič za izbor automobila</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 32px 20px 90px; }
+    .back { display: inline-block; margin-bottom: 18px; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 1.8rem; margin: 0 0 6px; }
+    .lead { color: var(--muted); margin: 0 0 28px; }
+
+    .toc { display: flex; flex-direction: column; gap: 14px; }
+    .toc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+      transition: background 0.15s, border-color 0.15s, transform 0.05s;
+    }
+    .toc-item:hover { background: var(--hover); }
+    .toc-item:active { transform: translateY(1px); }
+    .toc-num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2em;
+      height: 2em;
+      background: var(--card2);
+      border-radius: 999px;
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+    .toc-text { flex: 1; }
+    .toc-title { font-weight: 700; font-size: 1.05rem; color: var(--text); }
+    .toc-desc { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
+    .toc-arrow { color: var(--muted); align-self: center; }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+
+  <div class="wrap">
+    <a class="back" href="../index.html">← Nazad na listu automobila</a>
+
+    <h1>📚 Teorija — vodič za izbor</h1>
+    <p class="lead">Zašto su baš ovi kriterijumi (atmo benzin, MPI, lanac, prostor) i kako utiču na izbor.
+    Klikni temu za detalje.</p>
+
+    <div class="toc">
+
+      <a class="toc-item" href="atmo%20benzin%20i%20ostali%20pogoni.html">
+        <span class="toc-num">1</span>
+        <span class="toc-text">
+          <span class="toc-title">Atmo benzin i ostali pogoni</span>
+          <span class="toc-desc">Prednosti atmosferskog benzinca i poređenje sa turbo / dizel / hibrid / EV / plin.</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a class="toc-item" href="mpi-vs-gdi.html">
+        <span class="toc-num">2</span>
+        <span class="toc-text">
+          <span class="toc-title">MPI vs GDI</span>
+          <span class="toc-desc">Vrste ubrizgavanja benzina, troškovi koksa, i da li ušteda goriva prebija doplatu.</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a class="toc-item" href="lanac-vs-kais.html">
+        <span class="toc-num">3</span>
+        <span class="toc-text">
+          <span class="toc-title">Pogon razvoda: lanac vs kaiš</span>
+          <span class="toc-desc">Šta izabrati, da li je lanac skuplji za zamenu, i zašto za malu kilometražu lanac pobeđuje.</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a class="toc-item" href="godisnja%20kilometraza.html">
+        <span class="toc-num">4</span>
+        <span class="toc-text">
+          <span class="toc-title">Godišnja kilometraža</span>
+          <span class="toc-desc">Kako odnos grad/autoput i ukupna km odlučuju izbor pogona (zašto dizel otpada).</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a class="toc-item" href="potrosnja%20goriva.html">
+        <span class="toc-num">5</span>
+        <span class="toc-text">
+          <span class="toc-title">Potrošnja goriva</span>
+          <span class="toc-desc">2.0 vs 1.6 — potrošnja po 100 km vs ukupan godišnji trošak, grad vs put, porez.</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+      <a class="toc-item" href="zasto-turbo-i-mladji-atmo.html">
+        <span class="toc-num">6</span>
+        <span class="toc-text">
+          <span class="toc-title">Zašto je segment prešao na turbo</span>
+          <span class="toc-desc">2015+ atmo = biraš 2 od 3 (mlad / prostran / atmo) — regulativa, test ciklus, marketing.</span>
+        </span>
+        <span class="toc-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

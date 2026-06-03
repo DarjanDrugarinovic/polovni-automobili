@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lanac vs kaiš — šta izabrati</title>
+  <title>Godišnja kilometraža — uticaj na izbor pogona</title>
   <style>
     :root, [data-theme="light"] {
       --bg: #f4f6fa;
@@ -90,6 +90,15 @@
     .warn { color: var(--gold); }
     .bad { color: var(--red); }
 
+    h3 { font-size: 1.08rem; margin: 22px 0 8px; color: var(--text); }
+    p { margin: 10px 0; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    ul, ol { margin: 10px 0; padding-left: 22px; }
+    li { margin: 6px 0; }
+    code { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-family: "Cascadia Code","Consolas",monospace; font-size: 0.85em; }
+    blockquote { margin: 16px 0; padding: 12px 18px; background: var(--card2); border-left: 4px solid var(--accent); border-radius: 8px; }
+    blockquote p { margin: 0; }
     .theme-toggle {
       position: fixed;
       bottom: 22px;
@@ -120,77 +129,77 @@
   <div class="wrap">
     <a class="back" href="../index.html">← Nazad na listu automobila</a>
 
-    <h1>Pogon razvoda: lanac vs kaiš</h1>
-    <p class="lead">Kratak odgovor: <strong>za ovog kupca je lanac bolji</strong> — ali uz jednu bitnu
-    ogradu (servisna istorija + ulje).</p>
+    <h1>Godišnja kilometraža — uticaj na izbor pogona</h1>
 
-    <h2>Suštinska razlika</h2>
+    <p>Kilometraža (a posebno <strong>odnos grad/autoput</strong>) je presudna za izbor goriva.
+    Više od ukupne cifre, za dizel je važno <strong>ima li redovnih dugih vožnji autoputem</strong> (DPF).</p>
+
+    <hr>
+
+    <h2>Scenario A — ~6.000 km/god (250 grad + 250 put mesečno)</h2>
+
+    <ul>
+      <li>Ukupno <strong>500 km/mesec</strong>, pola grad / pola put, kratke relacije.</li>
+      <li><strong>Dizel OTPADA:</strong> DPF se na maloj/gradskoj kilometraži ne regeneriše → zapušavanje,
+      EGR, dvomaseni — skupo. Prag isplativosti dizela je daleko (~15.000–20.000 km/god).</li>
+      <li><strong>Cilj:</strong> atmo benzin (lanac + MPI), samo benzin.</li>
+    </ul>
+
+    <p>🥇 Atmo benzin · 🚫 dizel · 🚫 turbo benzin · 🚫 TNG</p>
+
+    <hr>
+
+    <h2>Scenario B — ~9.000 km/god (250 grad + 500 put mesečno)</h2>
+
+    <ul>
+      <li>Ukupno <strong>750 km/mesec</strong>, sad <strong>2/3 autoputa</strong>.</li>
+      <li><strong>DPF zamerka pada:</strong> uz redovnih ~500 km autoputa mesečno (u komadu, ne isečci)
+      dizel DPF se uredno regeneriše → dizel više <strong>nije tehnički rizičan</strong>.</li>
+      <li><strong>ALI ekonomija se ne menja:</strong> ušteda na gorivu je mala, ne pokriva skuplje održavanje.</li>
+    </ul>
+
     <table>
       <thead>
         <tr>
           <th></th>
-          <th>Zupčasti kaiš</th>
-          <th>Lanac</th>
+          <th>Atmo benzin</th>
+          <th>Dizel</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Zamena po planu</strong></td>
-          <td><span class="tag bad">DA</span> — na ~60–120k km <strong>ILI</strong> svakih 4–6 god. (šta pre dođe)</td>
-          <td><span class="tag ok">NE</span> — projektovan za vek motora</td>
+          <td>Potrošnja (mešovito)</td>
+          <td>~7 L/100</td>
+          <td>~5 L/100</td>
         </tr>
         <tr>
-          <td><strong>Cena zamene</strong></td>
-          <td>niža: ~150–400 € (kaiš + zatezači + često vodena pumpa)</td>
-          <td>viša: ~500–1.500 €+ (rastavlja se prednji deo motora)</td>
+          <td>Ušteda</td>
+          <td>—</td>
+          <td>~180 L/god ≈ <strong>150–200 €/god</strong></td>
         </tr>
         <tr>
-          <td><strong>Ako pukne</strong></td>
-          <td>motor uništen (kod interference motora)</td>
-          <td>retko puca; pre se „izvuče" / preskoči zub</td>
+          <td>Rizik skupih popravki</td>
+          <td>nizak</td>
+          <td>DPF/EGR/dizne (300–800 €)</td>
         </tr>
       </tbody>
     </table>
 
-    <h2>Da li je lanac značajno skuplji za zamenu?</h2>
-    <div class="card accent">
-      <p><strong>Da — kad se radi, lanac je 2–4× skuplji</strong> od kaiša (mnogo više rada/sati).
-      <strong>ALI</strong> — i to je ključno — <strong>lanac se po pravilu ne menja po planu</strong>,
-      dok se <strong>kaiš MORA menjati periodično</strong>, čak i ako malo voziš.</p>
-    </div>
+    <p>→ Jedan dizel kvar pojede godišnju uštedu. Prag isplativosti i dalje ~15.000–20.000 km/god.</p>
 
-    <h2>Zašto baš za tebe lanac pobeđuje</h2>
-    <div class="card">
-      <p>Tvoj profil: <strong>~6.000 km/god, niski troškovi = cilj.</strong></p>
-      <ul>
-        <li>Kaiš se menja i <strong>po vremenu</strong>, ne samo po km. Na 6.000 km/god nikad nećeš
-        nakucati 100k km, ali ćeš <strong>svakih ~5 godina</strong> ipak morati da platiš zamenu kaiša
-        (guma stari) — to je <strong>periodičan, siguran trošak</strong>.</li>
-        <li>Lanac uz <strong>redovnu zamenu ulja</strong> najčešće traje koliko i motor →
-        <strong>nula planiranih troškova razvoda</strong>. To se tačno poklapa sa „niski troškovi
-        održavanja".</li>
-      </ul>
-    </div>
+    <p>🥇 atmo benzin · ⚖️ dizel („prihvatljivo <em>ako</em> je zdrav primerak i
+    plan je veća kilometraža / dugo držanje") · 🚫 turbo benzin · 🚫 TNG</p>
 
-    <h2>Ograda (važno!)</h2>
-    <div class="card">
-      <p>Lanac je bezbrižan <strong>samo uz uredno ulje i servis</strong>. Zapušten lanac
-      (loše/retko ulje) se <strong>istegne</strong> i onda je skupa popravka. Zato:</p>
-      <ul>
-        <li><span class="tag ok">✅</span> <strong>#1–9 (Hyundai / Kia / Nissan, lanac)</strong> —
-        odlični, lanac im je pouzdan uz normalan servis.</li>
-        <li><span class="tag warn">⚠️</span> <strong>#10 Citroën C4 Picasso (EP6, lanac)</strong> —
-        lanac je poznat po istezanju, zato „rizičan → samo uz servisnu istoriju".</li>
-        <li><span class="tag bad">⛔</span> <strong>#13 Peugeot 308 1.2 (EB2, „mokri kaiš")</strong> —
-        najgora varijanta: kaiš radi u ulju, vremenom se raspada i može da zapuši usis ulja;
-        skupa i rizična zamena.</li>
-      </ul>
-    </div>
+    <hr>
 
-    <div class="verdict">
-      <p style="margin:0"><strong>Zaključak:</strong> traži <strong>lanac</strong> (idealno korejci /
-      Nissan sa liste), uz dokaz o redovnom menjanju ulja. Mokri kaiš (EB2) izbegavaj.</p>
-    </div>
+    <h2>Zaključak (oba scenarija)</h2>
+
+    <ul>
+      <li><strong>Atmo benzin ostaje osnovni izbor</strong> u oba slučaja — pouzdan, jeftino održavanje.</li>
+      <li><strong>Dizel:</strong> prelazi iz „ne" (6.000) u „uslovno da" (9.000), ali se ekonomski isplati tek
+      iznad ~15.000–20.000 km/god uz pretežno autoput.</li>
+      <li><strong>Pravilo:</strong> za dizel gledaj <strong>odnos grad/put i ukupno km</strong>, ne samo ukupnu cifru.</li>
+    </ul>
   </div>
 
   <script>

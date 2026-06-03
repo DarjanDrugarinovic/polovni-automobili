@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Potrošnja goriva — kako se menja u zavisnosti od kilometraže</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 90px; }
+    .back { display: inline-block; margin-bottom: 18px; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 1.8rem; margin: 0 0 6px; }
+    .lead { color: var(--muted); margin: 0 0 28px; font-size: 1.05rem; }
+    .lead strong { color: var(--text); }
+    h2 { font-size: 1.3rem; margin: 36px 0 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--card2); color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+    td strong { color: var(--text); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .card.accent { border-left: 4px solid var(--accent); }
+    .card p { margin: 8px 0; }
+    .card ul { margin: 8px 0; padding-left: 20px; }
+    .card li { margin: 6px 0; }
+
+    .verdict {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 24px 0 0;
+    }
+    .verdict strong { color: var(--green); }
+
+    .tag { display: inline-block; font-weight: 700; }
+    .ok { color: var(--green); }
+    .warn { color: var(--gold); }
+    .bad { color: var(--red); }
+
+    h3 { font-size: 1.08rem; margin: 22px 0 8px; color: var(--text); }
+    p { margin: 10px 0; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    ul, ol { margin: 10px 0; padding-left: 22px; }
+    li { margin: 6px 0; }
+    code { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-family: "Cascadia Code","Consolas",monospace; font-size: 0.85em; }
+    blockquote { margin: 16px 0; padding: 12px 18px; background: var(--card2); border-left: 4px solid var(--accent); border-radius: 8px; }
+    blockquote p { margin: 0; }
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+
+  <div class="wrap">
+    <a class="back" href="../index.html">← Nazad na listu automobila</a>
+
+    <h1>Potrošnja goriva — kako se menja u zavisnosti od kilometraže</h1>
+
+    <p>Pitanje: „veća potrošnja (2.0 vs 1.6) — koliko je to bitno?" Treba razdvojiti <strong>dve stvari</strong>
+    koje se često mešaju: potrošnju <strong>po 100 km</strong> i <strong>ukupan godišnji trošak</strong>.</p>
+
+    <h2>1. Potrošnja po 100 km (L/100km) — NE zavisi od godišnje kilometraže</h2>
+
+    <p>To je osobina <strong>motora + stila/uslova vožnje</strong>, ne broja pređenih km godišnje.
+    2.0 troši ~<strong>1–1,5 L/100km više</strong> od 1.6, bilo da pređeš 5.000 ili 50.000 km godišnje.</p>
+
+    <ul>
+      <li>Jedino što diže L/100km su <strong>kratke/hladne gradske relacije</strong> (motor ne dođe na
+      temperaturu) — a to je profil ovog kupca, pa je realna gradska potrošnja na gornjoj granici.</li>
+    </ul>
+
+    <h2>2. Ukupan trošak goriva (€/god) — skalira LINEARNO s kilometražom</h2>
+
+    <p>Ovde je suština: <strong>razlika 2.0 vs 1.6 raste sa pređenim kilometrima.</strong></p>
+
+    <p>Pretpostavke: razlika ~<strong>1,2 L/100km</strong>, benzin ~<strong>1,7 €/L</strong>.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Godišnje km</th>
+          <th>Extra goriva (2.0 vs 1.6)</th>
+          <th>Mesečno</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>6.000 (ovaj kupac)</strong></td>
+          <td>~<strong>120 €/god</strong></td>
+          <td>~10 €/mes</td>
+        </tr>
+        <tr>
+          <td>10.000</td>
+          <td>~200 €/god</td>
+          <td>~17 €/mes</td>
+        </tr>
+        <tr>
+          <td>15.000</td>
+          <td>~300 €/god</td>
+          <td>~25 €/mes</td>
+        </tr>
+        <tr>
+          <td>25.000</td>
+          <td>~510 €/god</td>
+          <td>~43 €/mes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2b. Grad vs otvoreni put — razlika 1.6 vs 2.0 NIJE ista</h2>
+
+    <p>Razlika 2.0 vs 1.6 jako zavisi od <strong>tipa vožnje</strong>, ne samo od količine km:</p>
+
+    <ul>
+      <li><strong>U gradu / kratke relacije</strong> — tu 2.0 najviše „pije": veća zapremina troši više po
+      svakom paljenju (čak i na ler/u koloni), stalno ubrzavanje-kočenje + hladan motor.
+      Razlika je najveća (~<strong>1–1,5 L/100km</strong>).</li>
+      <li><strong>Na otvorenom putu (ustaljena brzina)</strong> — gap se skuplja, ponekad skoro nestane:
+        <ul>
+          <li>2.0 vozi „opušteno" — niski obrtaji, mali gas, najviša brzina → <strong>blizu najefikasnije
+            zone</strong>; ne menja u niži ni na uzbrdici.</li>
+          <li>1.6 mora da radi <strong>jače</strong> (viši obrtaji, više gasa) da drži istu brzinu, pogotovo pun
+            auto / uzbrdica → njegova potrošnja raste i <strong>približava se 2.0</strong>.</li>
+          <li>Rezultat: na putu razlika padne na ~<strong>0,3–0,7 L/100km</strong>, a 2.0 je usput i prijatniji.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>➡️ <strong>Veći atmo (2.0) je u svom elementu baš na putu</strong> — tamo gubi malo ili nimalo prema 1.6.
+    „Kazna" za 2.0 je u suštini <strong>gradska pojava</strong>. Za profil ovog kupca (≈ pola grad, pola put):
+    na putnom delu praktično nema razlike, na gradskom 2.0 troši osetno više — prosečnih ~160 €/god
+    je zbir ta dva, ne ravnomerna razlika.</p>
+
+    <h2>3. Porez (registracija) — FIKSAN po godini, ne zavisi od km</h2>
+
+    <p>Porez se računa po <strong>kubikaži/snazi</strong>, ne po pređenim km. 2.0 vs 1.6 razlika je
+    ~<strong>30–60 €/god</strong> — ista i ako auto stoji i ako mnogo voziš.</p>
+
+    <h2>Zaključak</h2>
+
+    <ul>
+      <li>Na <strong>6.000 km/god</strong>: ukupno ~<strong>120 € gorivo + ~40 € porez ≈ 160 €/god</strong> više za 2.0
+      (~13 €/mesečno). To je <strong>umereno, ne „sitnica"</strong>.</li>
+      <li><strong>Ali</strong> i dalje je mnogo manje od onoga što GDI rizikuje na održavanju (čišćenje koksа)
+      ili turbo/dizel popravke — i, ključno, <strong>ta razlika je jedini minus 2.0</strong>, dok dobijaš
+      jednostavniji MPI + 30 KS više.</li>
+      <li>Suština: <strong>što više voziš, to manji (1.6) motor više štedi</strong>; na maloj kilometraži
+      prednost 2.0 (jednostavnost + snaga) i dalje preteže nad ~160 €/god.</li>
+    </ul>
+
+    <blockquote>
+      <p>Veza s ostalim: za MPI vs GDI ekonomiju (ušteda goriva vs doplata održavanja) vidi
+      <code>teorija/mpi-vs-gdi.md</code>; za izbor motora prema kilometraži vidi <code>teorija/godisnja kilometraza.md</code>.</p>
+    </blockquote>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

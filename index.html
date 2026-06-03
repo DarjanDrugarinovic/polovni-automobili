@@ -61,6 +61,24 @@
     }
     .intro .kriterijum { margin: 8px 0 12px; padding-left: 22px; }
     .intro .kriterijum li { margin: 4px 0; }
+    .more-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 20px 0;
+      padding: 14px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .more-link:hover { background: var(--hover); border-left-color: var(--accent); text-decoration: none; }
+    .more-link span { flex: 1; }
     .intro .note-inline {
       margin: 12px 0 0;
       padding: 8px 12px;
@@ -231,6 +249,10 @@
     </ul>
     <p class="note-inline">ⓘ Turbo i CNG/TNG su isključeni (dno liste).</p>
   </div>
+
+  <a class="more-link" href="teorija/index.html">
+    📚 <span>Teorija — zašto baš ovi kriterijumi (atmo, MPI, lanac, prostor)</span> →
+  </a>
 
   <div class="cards">
 
