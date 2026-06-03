@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lanac vs kaiš — šta izabrati</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 90px; }
+    .back { display: inline-block; margin-bottom: 18px; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 1.8rem; margin: 0 0 6px; }
+    .lead { color: var(--muted); margin: 0 0 28px; font-size: 1.05rem; }
+    .lead strong { color: var(--text); }
+    h2 { font-size: 1.3rem; margin: 36px 0 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--card2); color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+    td strong { color: var(--text); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .card.accent { border-left: 4px solid var(--accent); }
+    .card p { margin: 8px 0; }
+    .card ul { margin: 8px 0; padding-left: 20px; }
+    .card li { margin: 6px 0; }
+
+    .verdict {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 24px 0 0;
+    }
+    .verdict strong { color: var(--green); }
+
+    .tag { display: inline-block; font-weight: 700; }
+    .ok { color: var(--green); }
+    .warn { color: var(--gold); }
+    .bad { color: var(--red); }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+
+  <div class="wrap">
+    <a class="back" href="index.html">← Nazad na listu automobila</a>
+
+    <h1>Pogon razvoda: lanac vs kaiš</h1>
+    <p class="lead">Kratak odgovor: <strong>za ovog kupca je lanac bolji</strong> — ali uz jednu bitnu
+    ogradu (servisna istorija + ulje).</p>
+
+    <h2>Suštinska razlika</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Zupčasti kaiš</th>
+          <th>Lanac</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Zamena po planu</strong></td>
+          <td><span class="tag bad">DA</span> — na ~60–120k km <strong>ILI</strong> svakih 4–6 god. (šta pre dođe)</td>
+          <td><span class="tag ok">NE</span> — projektovan za vek motora</td>
+        </tr>
+        <tr>
+          <td><strong>Cena zamene</strong></td>
+          <td>niža: ~150–400 € (kaiš + zatezači + često vodena pumpa)</td>
+          <td>viša: ~500–1.500 €+ (rastavlja se prednji deo motora)</td>
+        </tr>
+        <tr>
+          <td><strong>Ako pukne</strong></td>
+          <td>motor uništen (kod interference motora)</td>
+          <td>retko puca; pre se „izvuče" / preskoči zub</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Da li je lanac značajno skuplji za zamenu?</h2>
+    <div class="card accent">
+      <p><strong>Da — kad se radi, lanac je 2–4× skuplji</strong> od kaiša (mnogo više rada/sati).
+      <strong>ALI</strong> — i to je ključno — <strong>lanac se po pravilu ne menja po planu</strong>,
+      dok se <strong>kaiš MORA menjati periodično</strong>, čak i ako malo voziš.</p>
+    </div>
+
+    <h2>Zašto baš za tebe lanac pobeđuje</h2>
+    <div class="card">
+      <p>Tvoj profil: <strong>~6.000 km/god, niski troškovi = cilj.</strong></p>
+      <ul>
+        <li>Kaiš se menja i <strong>po vremenu</strong>, ne samo po km. Na 6.000 km/god nikad nećeš
+        nakucati 100k km, ali ćeš <strong>svakih ~5 godina</strong> ipak morati da platiš zamenu kaiša
+        (guma stari) — to je <strong>periodičan, siguran trošak</strong>.</li>
+        <li>Lanac uz <strong>redovnu zamenu ulja</strong> najčešće traje koliko i motor →
+        <strong>nula planiranih troškova razvoda</strong>. To se tačno poklapa sa „niski troškovi
+        održavanja".</li>
+      </ul>
+    </div>
+
+    <h2>Ograda (važno!)</h2>
+    <div class="card">
+      <p>Lanac je bezbrižan <strong>samo uz uredno ulje i servis</strong>. Zapušten lanac
+      (loše/retko ulje) se <strong>istegne</strong> i onda je skupa popravka. Zato:</p>
+      <ul>
+        <li><span class="tag ok">✅</span> <strong>#1–9 (Hyundai / Kia / Nissan, lanac)</strong> —
+        odlični, lanac im je pouzdan uz normalan servis.</li>
+        <li><span class="tag warn">⚠️</span> <strong>#10 Citroën C4 Picasso (EP6, lanac)</strong> —
+        lanac je poznat po istezanju, zato „rizičan → samo uz servisnu istoriju".</li>
+        <li><span class="tag bad">⛔</span> <strong>#13 Peugeot 308 1.2 (EB2, „mokri kaiš")</strong> —
+        najgora varijanta: kaiš radi u ulju, vremenom se raspada i može da zapuši usis ulja;
+        skupa i rizična zamena.</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <p style="margin:0"><strong>Zaključak:</strong> traži <strong>lanac</strong> (idealno korejci /
+      Nissan sa liste), uz dokaz o redovnom menjanju ulja. Mokri kaiš (EB2) izbegavaj.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>
