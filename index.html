@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kupovina auta</title>
+  <title>Rangiranje polovnih automobila</title>
   <style>
     :root, [data-theme="light"] {
       --bg: #f4f6fa;
@@ -38,6 +38,7 @@
       color: var(--text);
       font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
       line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
     }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
     header h1 { font-size: 1.9rem; margin: 0 0 6px; }
@@ -61,24 +62,6 @@
     }
     .intro .kriterijum { margin: 8px 0 12px; padding-left: 22px; }
     .intro .kriterijum li { margin: 4px 0; }
-    .more-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 20px 0;
-      padding: 14px 18px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--accent);
-      border-radius: 12px;
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .more-link:hover { background: var(--hover); border-left-color: var(--accent); text-decoration: none; }
-    .more-link span { flex: 1; }
     .intro .note-inline {
       margin: 12px 0 0;
       padding: 8px 12px;
@@ -100,25 +83,18 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
+    /* Metodologija */
+    .method {
       background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
-      font-size: 0.92rem;
+      padding: 8px 24px 20px;
+      margin: 20px 0;
     }
-    th, td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-    th { background: var(--card2); color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; }
-    tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: var(--hover); }
-    body { transition: background 0.2s, color 0.2s; }
+    .method ul { padding-left: 20px; }
+    .method li { margin: 8px 0; }
+    .method .best strong { color: var(--green); }
+    .method .risk strong { color: var(--red); }
 
     /* ===== Kartični (flex) prikaz rang-liste ===== */
     .cards { display: flex; flex-direction: column; gap: 16px; margin: 20px 0; }
@@ -129,6 +105,7 @@
       overflow: hidden;
       box-shadow: 0 1px 6px rgba(0,0,0,0.10);
     }
+    .card.top { border-left: 4px solid var(--gold); }
     .card-head {
       display: flex;
       align-items: center;
@@ -177,6 +154,7 @@
       color: var(--muted);
       text-align: left;
     }
+    .card strong, td strong, .reason strong { color: var(--text); }
 
     .theme-toggle {
       position: fixed;
@@ -199,18 +177,6 @@
     }
     .theme-toggle:hover { border-color: var(--accent); }
     code, .mono { font-family: "Cascadia Code", "Consolas", monospace; }
-    .card strong, td strong { color: var(--text); }
-
-    .excluded {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--red);
-      border-radius: 12px;
-      padding: 8px 24px;
-      margin: 20px 0;
-    }
-    .excluded li { margin: 10px 0; }
-    .excluded strong { color: var(--red); }
 
     .note {
       background: var(--card);
@@ -219,12 +185,9 @@
       padding: 8px 24px 24px;
       margin: 20px 0;
     }
-    .note ol { padding-left: 20px; }
+    .note ul { padding-left: 20px; }
     .note .lead { color: var(--gold); font-weight: 700; }
     hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
-    .compare { font-size: 0.9rem; }
-    .compare td, .compare th { text-align: center; }
-    .compare td:first-child, .compare th:first-child { text-align: left; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -234,26 +197,110 @@
 <div class="wrap">
 
   <header>
-    <h1>Kupovina auta</h1>
-    <div class="date">ažurirano 2026-06-03</div>
+    <h1>Rangiranje polovnih automobila</h1>
+    <div class="date">ažurirano 2026-06-04</div>
   </header>
 
   <div class="intro">
-    <p class="kriterijum-naslov">Kriterijum rangiranja</p>
-    <ul class="kriterijum">
-      <li>prostor</li>
+    <p class="kriterijum-naslov">Kriterijumi po važnosti</p>
+    <ol class="kriterijum">
       <li>pouzdanost</li>
-      <li>jednostavnost motora (atmo, lanac)</li>
+      <li>niski troškovi održavanja</li>
+      <li>prostranost</li>
       <li>stanje (km / godište)</li>
       <li>odnos cene i vrednosti</li>
-    </ul>
-    <p class="note-inline">ⓘ Turbo i CNG/TNG su isključeni (dno liste).</p>
+    </ol>
+    <p class="note-inline">ⓘ Profil: ~9.000 km/god (6k put + 3k grad). Dizel je ravnopravan ako je dokazan i bez problematičnog DPF/EGR/injektora/dvomasenog zamajca.</p>
   </div>
 
-  <a class="more-link" href="teorija/index.html">
-    📚 <span>Teorija — zašto baš ovi kriterijumi (atmo, MPI, lanac, prostor)</span> →
-  </a>
+  <h2>Metodologija</h2>
+  <div class="method">
+    <p>Motori rangirani po pouzdanosti za ovaj profil:</p>
+    <ul>
+      <li class="best"><strong>Najbolje:</strong> atmosferski benzinci (bez turba/DPF/zamajca) — ix35 2.0, Astra 1.4 atmo, C3 1.2 atmo.</li>
+      <li><strong>Vrlo dobro:</strong> dokazani dizeli BEZ dvomasenog zamajca — 1.7 CRDi, 1.5 dCi K9K, 1.6 HDi (bez zamajca).</li>
+      <li><strong>Dobro:</strong> robusni manuelni turbo benzinci — 1.4 Turbo (Opel/Chevy), 0.9 TCe (manuelni).</li>
+      <li><strong>Srednje:</strong> moderni dizeli sa DPF + dvomasenim zamajcem — 1.6 CDTI, 2.0 CDTI, Volvo D4, 1.5 BlueHDi, 1.8 DI-D.</li>
+      <li class="risk"><strong>Rizično (padaju u rang):</strong> 1.2 TCe EDC automatik, 1.2 DIG-T, 1.2 PureTech turbo automatik, Land Rover, dizel automatik 4x4.</li>
+    </ul>
+  </div>
 
+  <h2>🏆 TOP preporuke</h2>
+  <div class="cards">
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">1</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc" target="_blank">🥇 Hyundai ix35 2.0 DOHC benzin</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.990 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 173k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin atmo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Najbolje pogađa prva 3 kriterijuma: <strong>atmosferski 2.0 benzin</strong> (bez turba, DPF, zamajca → najmanje toga da se kvari, najjeftinije održavanje), prostran SUV, <strong>domaće tablice + prvi vlasnik + kupljen nov u Srbiji + servisna knjiga</strong>, registrovan do 2027, ide set zimskih guma. Hyundai delovi jeftini. Jedina mana: 2.0 troši nešto više — zanemarljivo kod male km i otvorenog puta.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">2</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28683890/hyundai-ix35-17crdi" target="_blank">🥈 Hyundai ix35 1.7 CRDi (bez zamajca)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 174k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Najbolji <strong>dokazani dizel</strong>: 1.7 CRDi, eksplicitno <strong>BEZ dvomasenog zamajca</strong>, prednji pogon, manuelni → minimalan rizik troškova za dizel. Prostran SUV, jeftini delovi. Ima DPF (jedini standardni rizik). Konkurenti: 29410796 (Premium, 8.400 €) i 29379777 (7.590 €, ali 193k).</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">3</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29453564/opel-astra-j-14-turbo" target="_blank">🥉 Opel Astra J 1.4 Turbo limuzina</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 150k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina</span></div>
+      </div>
+      <p class="reason"><strong>Benzin</strong> (bez DPF/zamajca), <strong>domaće tablice + kupljen NOV u Srbiji + prvi vlasnik</strong>, najmlađi (2017) među povoljnijima. Limuzina = pristojno prostrana, veliki gepek. A14NET turbo solidno pouzdan, jeftiniji za održavanje od dizela. Najbolja istorija u listi.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">4</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29396044/opel-astra-k-16-cdti-innovation" target="_blank">Opel Astra K 1.6 CDTI Innovation karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.250 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 184k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Najbolji spoj <strong>prostranosti (karavan)</strong> i <strong>niske potrošnje (moderan 1.6 CDTI Euro6)</strong>, bogata oprema, povoljno. Ima DPF + dvomaseni zamajac (srednji rizik). Alternativa: 28788630 (karavan 2018, 143k, 8.250 €).</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">5</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/26879120/renault-clio-15dcibez-zamajca" target="_blank">Renault Clio 1.5 dCi Grandtour (bez zamajca)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.200 € (fiksno)</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 191k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason"><strong>Najjeftiniji za kupovinu i održavanje.</strong> K9K 1.5 dCi legendarno izdržljiv, <strong>BEZ zamajca</strong>, jeftini delovi, karavan = praktičan. Skoro odrađen servis, nove gume. Mane: visoka km (191k), skromna oprema, manji od Astre/Insignije karavana. Vrhunski odnos cena/troškovi.</p>
+    </article>
+
+  </div>
+
+  <h2>Puno rangiranje (od najbolje ka slabije za zadati profil)</h2>
   <div class="cards">
 
     <article class="card">
@@ -262,320 +309,457 @@
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc" target="_blank">Hyundai ix35 2.0 DOHC</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">AUTO MG COMMERCE, Niš</span></div>
         <div class="spec"><span class="k">Cena</span><span class="v price">7.990 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 174k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1998 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">165 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 173k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin atmo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
       </div>
-      <p class="reason">Najviše prostora + snage, najjednostavniji MPI, najniža km od ix35-ova. Najbolji sveukupno.</p>
+      <p class="reason">Najpouzdaniji + prostran + domaće, atmo benzin.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">2</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29162014/nissan-qashqai-b-e-n-z-i-n" target="_blank">Nissan Qashqai 1.6</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28683890/hyundai-ix35-17crdi" target="_blank">Hyundai ix35 1.7 CRDi</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">A.C.M. Plus, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">6.999 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 189k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1598 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">114 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 174k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
       </div>
-      <p class="reason">Prostran krosover, MPI + lanac, <strong>najbolja vrednost</strong> — jeftiniji i manje km od #3 (isti auto).</p>
+      <p class="reason">Najbolji dizel, bez zamajca.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">3</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27876512/nissan-qashqai-16-urban-style" target="_blank">Nissan Qashqai 1.6 Urban Style</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29453564/opel-astra-j-14-turbo" target="_blank">Opel Astra J 1.4 Turbo</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">Auto NIŠ, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.350 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 205k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1598 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">117 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 150k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina</span></div>
       </div>
-      <p class="reason">Isti odličan Qashqai kao #2, ali 350 € skuplji i 16k km više.</p>
+      <p class="reason">Benzin, nov u Srbiji, 1 vlasnik.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">4</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28387967/hyundai-ix35-16-gdi" target="_blank">Hyundai ix35 1.6 GDI</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29410796/hyundai-ix35-17crdi-premium" target="_blank">Hyundai ix35 1.7 CRDi Premium</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">(Niš)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.100 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 176k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1591 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">135 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">GDI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.400 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 179k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
       </div>
-      <p class="reason">Isti prostran SUV kao #1, jeftiniji, niska km; GDI = malo jača/efikasnija varijanta.</p>
+      <p class="reason">1 vlasnik, najopremljeniji 1.7.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">5</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29482508/hyundai-ix35-16-gdi-bluedrive" target="_blank">Hyundai ix35 1.6 GDi BlueDrive</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29396044/opel-astra-k-16-cdti-innovation" target="_blank">Opel Astra K 1.6 CDTI karavan (Innovation)</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">MS CARS, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.650 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 197k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1591 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">135 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">GDI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.250 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 184k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
       </div>
-      <p class="reason">Isti GDI ix35, ali skuplji i veća km od #4.</p>
+      <p class="reason">Prostran + ekonomičan, super vrednost.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">6</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28834855/kia-sportage-16-gdi" target="_blank">Kia Sportage 1.6 GDI</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28788630/opel-astra-k-16-cdti" target="_blank">Opel Astra K 1.6 CDTI karavan</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">(Niš)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.950 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 197k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1591 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">135 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">GDI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.250 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2018 / 143k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
       </div>
-      <p class="reason">Sestra ix35 (ista platforma/motor), prostran SUV; najskuplji od GDI SUV-ova.</p>
+      <p class="reason">Najmlađi / najmanje pređen karavan.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">7</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29304589/kia-ceed-sw-b-e-n-z-i-n" target="_blank">Kia cee'd SW karavan 1.6</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/26879120/renault-clio-15dcibez-zamajca" target="_blank">Renault Clio 1.5 dCi Grandtour</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">A.C.M. Plus, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">5.599 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 230k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1591 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">135 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">GDI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.200 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 191k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
       </div>
-      <p class="reason"><strong>Najjeftiniji + jedini karavan-GDI</strong> = najviše prtljažnika za male pare. Mana: 230k km.</p>
+      <p class="reason">Najjeftiniji za održavanje.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">8</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27715921/hyundai-i30-14" target="_blank">Hyundai i30 1.4 CW karavan</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29379777/hyundai-ix35-17-crdi" target="_blank">Hyundai ix35 1.7 CRDi</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">privatni (van Niša)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">6.200 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 209k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1396 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">101 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.590 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 194k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
       </div>
-      <p class="reason">Karavan, najjeftiniji delovi, 1 vlasnik. Mana: slab 1.4 za teret, visoka km, nije u Nišu.</p>
+      <p class="reason">Jeftin, bez zamajca, visoka km.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">9</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28827180/kia-ceed" target="_blank">Kia cee'd 1.6 (hečbek)</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28498812/opel-astra-j-n-o-v" target="_blank">Opel Astra J 1.7 CDTI</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">KIA VELJAAUTO, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.899 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / <strong>136k</strong></span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1591 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">135 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">GDI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 152k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
       </div>
-      <p class="reason">Najmlađi/najmanja km od korejaca, ali <strong>hečbek</strong> (manje prostora) i skuplji.</p>
+      <p class="reason">Najjeftiniji dizel, izdržljiv 1.7.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">10</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29471422/citroen-c4-picasso" target="_blank">Citroën C4 Picasso 1.6 VTi</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29491238/opel-astra-k-16-cdti" target="_blank">Opel Astra K 1.6 CDTI</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">(Niš)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">6.600 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 201k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1598 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">120 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.899 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 175k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
       </div>
-      <p class="reason"><strong>Najviše prostora (pravi MPV)</strong>, ali motor <strong>EP6</strong> rizičan (lanac/ulje) → samo uz servisnu istoriju.</p>
+      <p class="reason">Lanac menjan, bogata oprema.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">11</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29114589/dacia-sandero-10-sce" target="_blank">Dacia Sandero 1.0 SCe</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29478170/peugeot-2008-16-hdi-gt-line" target="_blank">Peugeot 2008 1.6 HDi GT-Line</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">(Niš)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">6.200 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v"><strong>2019 / 98k</strong></span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">999 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">73 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">atmo</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.990 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 156k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel, bez zamajca</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV mali</span></div>
       </div>
-      <p class="reason"><strong>Najmlađi + najmanja km + najjeftinije održavanje</strong>, ali B-segment (mali). Izbor ako prostor nije presudan.</p>
+      <p class="reason">Dokazan HDi, bez zamajca, fiksna cena.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">12</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29357107/nissan-qashqai-16-16v-acentanov" target="_blank">Nissan Qashqai 1.6 Acenta</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29102054/opel-astra-j" target="_blank">Opel Astra J 1.4 atmo</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">Petrović, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">5.990 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2009 / <strong>238k</strong></span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1598 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">~114 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.650 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 181k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin atmo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
       </div>
-      <p class="reason">Prostran atmo SUV i jeftin, ali <strong>najstariji + najviše km</strong>.</p>
+      <p class="reason">Najjednostavniji / najjeftiniji, ali skroman.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">13</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28569024/peugeot-308-active" target="_blank">Peugeot 308 1.2 VTi 82</a>
+        <a class="car" href="https://www.facebook.com/marketplace/item/925388630460632/" target="_blank">Hyundai i40 1.7 CRDi automatik (FB)</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">MS Auto, Niš</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">7.790 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 110k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1199 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">82 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">atmo (VTi)</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">kaiš (mokri)</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">~7.200 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / n/a</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel automatik</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina / karavan</span></div>
       </div>
-      <p class="reason">Mlad i mala km, atmo (ne PureTech turbo!), ali <strong>slab 82 KS</strong> + hečbek, a skup.</p>
+      <p class="reason">Prostran, full oprema; km nepoznata.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
         <span class="badge">14</span>
-        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/26596519/opel-meriva" target="_blank">Opel Meriva 1.4</a>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29299826/chevrolet-trax-14-4x4" target="_blank">Chevrolet Trax 1.4 Turbo 4x4</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">(Niš)</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">5.300 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 230k</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1398 cm³</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">101 KS</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">lanac</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.200 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 170k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
       </div>
-      <p class="reason">Atmo MPI i jeftina, ali mini-MPV (malo prostora) + visoka km.</p>
+      <p class="reason">Benzin SUV, ali Chevy karoserijski delovi.</p>
     </article>
 
     <article class="card">
       <header class="card-head">
-        <span class="badge low">15</span>
-        <span class="car">Opel Astra J 1.4 NA / mali atmo hečbeci</span>
+        <span class="badge">15</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29364173/opel-insignia-eko-flek" target="_blank">Opel Insignia eko flek 2.0 CDTI</a>
       </header>
       <div class="specs">
-        <div class="spec"><span class="k">Salon</span><span class="v">razni saloni</span></div>
-        <div class="spec"><span class="k">Cena</span><span class="v price">4.850–5.500 €</span></div>
-        <div class="spec"><span class="k">God. / km</span><span class="v">2010–2014</span></div>
-        <div class="spec"><span class="k">Kubikaža</span><span class="v">1.4 l</span></div>
-        <div class="spec"><span class="k">Snaga</span><span class="v">—</span></div>
-        <div class="spec"><span class="k">Ubrizgavanje goriva</span><span class="v">atmo MPI</span></div>
-        <div class="spec"><span class="k">Pogon razvoda</span><span class="v">zavisi od modela</span></div>
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 150k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina</span></div>
       </div>
-      <p class="reason">Rezerva: pouzdani i jeftini, ali <strong>nisu porodično prostrani</strong> (i20, C3, Corsa, Adam, Astra).</p>
+      <p class="reason">Prostran, cela servisna, 2 vlasnik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">16</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28090607/mazda-6-22d-skyactiv-d-150" target="_blank">Mazda 6 2.2 SkyActiv-D</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 185k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Vrlo prostran, ali DPF / glava rizik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">17</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/15847041/opel-insignia-20-cdti-edition" target="_blank">Opel Insignia 2.0 CDTI Edition</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.450 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 199k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina</span></div>
+      </div>
+      <p class="reason">Opremljen, visoka km.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">18</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29484656/hyundai-ix35-style-4x4-ch" target="_blank">Hyundai ix35 2.0 CRDi 184 4x4</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.300 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 217k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel 4x4</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Jak / opremljen, ali 217k + 4x4.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">19</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28684594/renault-clio-09-tce-restajling" target="_blank">Renault Clio 0.9 TCe restajling</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.900 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2019 / 106k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">Najbolje stanje, ali mali.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">20</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29225499/renault-clio-15-dci" target="_blank">Renault Clio 1.5 dCi</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.900 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2018 / 199k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">K9K dobar, ali mali + visoka km.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">21</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29164189/citroen-c3-kupljen-nov-u-srbiji" target="_blank">Citroen C3 1.2 atmo</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2019 / <strong>68k</strong></span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin atmo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">Najmanja km, pouzdan atmo, ali mali.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">22</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29477870/renault-clio-09-tce" target="_blank">Renault Clio 0.9 TCe</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.400 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 163k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">OK benzin, mali.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">23</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27365886/citroen-c3-aircross-15-bluehdi" target="_blank">Citroen C3 Aircross 1.5 BlueHDi</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">9.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2019 / 176k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel Euro6</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV mali</span></div>
+      </div>
+      <p class="reason">Dobar HDi, lanac menjan, skup.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">24</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28596123/opel-insignia-20-cdti-4x4" target="_blank">Opel Insignia 2.0 CDTI 4x4 automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.950 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 181k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel 4x4 auto</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Prostran / jak, ali auto + 4x4 troškovi.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">25</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29395756/mitsubishi-asx-18dfaceliftinvite" target="_blank">Mitsubishi ASX 1.8 DI-D 116</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.990 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 190k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Robusna šasija, ali 4N13 lanac / DPF.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">26</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28955130/volvo-v40-20-d4-r-design" target="_blank">Volvo V40 2.0 D4</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 212k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">Premium, ali skup servis + 212k.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">27</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27425065/mitsubishi-asx-18did-intense" target="_blank">Mitsubishi ASX 1.8 DI-D 150 4x4</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 180k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel 4x4</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">4x4 + zamajac = veći troškovi.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">28</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28407884/renault-koleos-20dci-150-4x4" target="_blank">Renault Koleos 2.0 dCi 4x4</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 151k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel 4x4</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Redak, delovi teži; zamajac / DPF.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">29</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29402537/renault-clio-12i-dynamique-ch" target="_blank">Renault Clio 1.2 TCe EDC automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.799 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 141k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo auto</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+      </div>
+      <p class="reason">EDC menjač već popravljan — rizik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge low">30</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29136601/nissan-qashqai-navkamer-pano" target="_blank">Nissan Qashqai 1.2 DIG-T</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">9.100 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 169k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">1.2 DIG-T lanac / ulje rizik, skup.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge low">31</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29480264/peugeot-2008" target="_blank">Peugeot 2008 1.2 PureTech automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.600 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 177k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Benzin turbo auto</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV mali</span></div>
+      </div>
+      <p class="reason">Wet-belt + auto + nije carinjen.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge low">32</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29347976/land-rover-freelander-2179" target="_blank">Land Rover Freelander 2.2 SD4 4x4 auto</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 214k</span></div>
+        <div class="spec"><span class="k">Gorivo / motor</span><span class="v">Dizel 4x4 auto</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Najskuplje održavanje, 214k.</p>
     </article>
 
   </div>
 
-  <div class="intro note-tech">
-    <p>Jedinstvena lista <strong>od najboljeg do najgoreg izbora</strong> za kupca (prostor + pouzdanost +
-    niski troškovi, 4–8k €, samo benzin). <strong>GDI je punopravna opcija</strong> (doplata na održavanju
-    je mala, ~30–60 €/god; vidi <code>teorija/mpi-vs-gdi.md</code>). Svi motori verifikovani preko <code>paVerify</code>
-    (kubikaža + menjač + snaga), ne po naslovu.</p>
-  </div>
-
-  <h2>⛔ NE KUPOVATI (isključeno po kriterijumu)</h2>
-  <div class="excluded">
-    <ul>
-      <li><strong>Turbo benzin</strong> (zamke koje po naslovu liče na atmo, potvrđeno kubikažom): Opel Meriva/Astra
-        <strong>1364 cm³ = 1.4 Turbo</strong>, C4 Picasso 1.6i <strong>156 KS = THP</strong>, VW/Škoda <strong>TSI</strong>, Renault/Dacia
-        <strong>TCe</strong>, Peugeot/Ford <strong>PureTech/EcoBoost</strong>. → veći troškovi održavanja (turbina, dvomaseni).</li>
-      <li><strong>CNG/TNG</strong>: Z.Ristic „eco fuel/metan" (Passat, Touran, Panda), VD Auto Ford Fiesta (TNG).</li>
-      <li><strong>Dizel</strong>: otpada za malu/gradsku kilometražu (DPF se ne regeneriše).</li>
-    </ul>
-  </div>
-
-  <hr>
-
-  <h2>Napomena: zašto je #1 (ix35 2.0 MPI) iznad #4 i #5 (ix35 1.6 GDI)</h2>
+  <h2>Napomene</h2>
   <div class="note">
-    <p>Sva tri su <strong>isti auto spolja</strong> (ix35 SUV, isti prostor, ista pouzdanost karoserije/menjača) —
-    razlika je skoro samo u <strong>motoru</strong>, i tu 2.0 MPI dobija po kupčevim prioritetima.</p>
-
-    <table class="compare">
-      <thead>
-        <tr>
-          <th></th>
-          <th>#1 ix35 <strong>2.0 MPI</strong></th>
-          <th>#4 ix35 1.6 GDI</th>
-          <th>#5 ix35 1.6 GDi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Cena</td><td>7.990 €</td><td>7.100 €</td><td>7.650 €</td></tr>
-        <tr><td>God./km</td><td>2011 / <strong>174k</strong></td><td>2011 / 176k</td><td>2011 / <strong>197k</strong></td></tr>
-        <tr><td>Motor</td><td>1998 cm³, <strong>165 KS</strong>, MPI</td><td>1591 cm³, 135 KS, GDI</td><td>1591 cm³, 135 KS, GDI</td></tr>
-      </tbody>
-    </table>
-
-    <p class="lead">Zašto #1 vodi:</p>
-    <ol>
-      <li><strong>Jednostavnost = cilj #1.</strong> 2.0 je <strong>MPI</strong> → nema koksa na ventilima ni visokopritisne pumpe.
-        GDI baš taj koks stvara, a <strong>najgore na kratkim gradskim relacijama</strong> — što je tačno ovaj kupac.
-        GDI-jeva jedina realna mana pogađa ovog vozača direktno; MPI je nema.</li>
-      <li><strong>Snaga (165 vs 135 KS).</strong> 2.0 lakše vuče pun SUV s decom i prtljagom — manje „cimanja",
-        opuštenije, duži vek (motor ne radi na granici).</li>
-      <li><strong>Stanje.</strong> #1 ima <strong>najmanju km grupe</strong> (174k); #5 je na 197k i skuplji od #4 — zato je #5 ispod #4.</li>
-    </ol>
-
-    <p class="lead">Šta GDI dobija (i zašto je odmah iza, ne otpisan):</p>
     <ul>
-      <li>#4 je <strong>~900 € jeftiniji</strong> uz praktično istu km → najjača „value" alternativa.</li>
-      <li>GDI troši malo manje i ima nešto niži porez. <strong>Ali</strong> na 6.000 km/god ta ušteda je ≈ nula
-        (poništi se sa GDI doplatom održavanja), pa ne prevagne.</li>
+      <li><strong>Sve cene su informativne sa oglasa; gotovo svi imaju visoku km (150k–217k)</strong> — obavezan pregled kod nezavisnog majstora pre kupovine (kompresija, DPF, zamajac, trap, dijagnostika).</li>
+      <li>Za dizele sa DPF i pretežno gradskom vožnjom (3k/god) — povremeno produžiti otvoreni put radi regeneracije.</li>
+      <li>i40 (FB) i neki uvozi nemaju potpune podatke (km/poreklo) — tražiti dopunu od prodavca.</li>
     </ul>
-
-    <p><strong>Zaključak:</strong> razlika #1 vs #4 je realno mala — ako je budžet tesan ili je baš taj primerak
-    bolji po stanju, <strong>#4 je sasvim opravdan</strong>. Ali po navedenim prioritetima (pouzdanost +
-    jednostavnost + niski troškovi, gradska vožnja) <strong>2.0 MPI je „bezbrižnija" varijanta</strong>, pa je
-    na vrhu. Jedina objektivna mana #1: <strong>veća potrošnja i nešto viši porez</strong> (2.0 vs 1.6) — na
-    maloj kilometraži sitnica.</p>
   </div>
 
 </div>
