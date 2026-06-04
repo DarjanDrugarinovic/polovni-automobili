@@ -181,6 +181,33 @@
       border-radius: 6px;
     }
 
+    /* Lokacija — adresa iz opisa + adresa sa mape (Google Maps) */
+    .maploc {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--card2);
+      font-size: 0.88rem;
+    }
+    .maploc .addr { display: flex; align-items: baseline; gap: 7px; }
+    .maploc .addr-lbl {
+      flex-shrink: 0;
+      width: 5.2em;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    a.maplink {
+      color: var(--green);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    a.maplink:hover { text-decoration: underline; }
+
     .theme-toggle {
       position: fixed;
       bottom: 22px;
@@ -258,6 +285,10 @@
         <span class="badge">1</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc" target="_blank">Hyundai ix35 2.0 DOHC benzin</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=%C4%8Camurlijski%20put%20bb%2C%20Ni%C5%A1" target="_blank"><span class="addr-lbl">opis</span>Čamurlijski put bb, Niš — AUTO MG COMMERCE</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.367389%2C21.838066" target="_blank"><span class="addr-lbl">mapa</span>Stevana Sinđelića 90, Trupale (Niš, Crveni Krst)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">7.990 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 173k</span></div>
@@ -272,6 +303,10 @@
         <span class="badge">2</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28683890/hyundai-ix35-17crdi" target="_blank">Hyundai ix35 1.7 CRDi (bez zamajca)</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=Kralja%20Aleksandra%2018%2C%20Belotinac" target="_blank"><span class="addr-lbl">opis</span>Kralja Aleksandra 18, Belotinac — Z. Ristić</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.265814%2C21.853252" target="_blank"><span class="addr-lbl">mapa</span>Kralja Aleksandra 12, Belotinac (opština Doljevac)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">7.999 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 174k</span></div>
@@ -301,6 +336,10 @@
         <span class="badge">4</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29396044/opel-astra-k-16-cdti-innovation" target="_blank">Opel Astra K 1.6 CDTI Innovation karavan</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=Prof.%20dr%20Mileta%20Novakovi%C4%87a%2036%2C%20Ni%C5%A1" target="_blank"><span class="addr-lbl">opis</span>Prof. dr Mileta Novakovića 36, Niš — MAVIVA AUTO</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.322550%2C21.943612" target="_blank"><span class="addr-lbl">mapa</span>Toplička 37, Donja Vrežina (Niš, Pantelej)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">7.250 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 184k</span></div>
@@ -330,6 +369,10 @@
         <span class="badge">6</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28788630/opel-astra-k-16-cdti" target="_blank">Opel Astra K 1.6 CDTI karavan</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=Bulevar%20Nikole%20Tesle%201%2C%20Ni%C5%A1" target="_blank"><span class="addr-lbl">opis</span>Bul. Nikole Tesle 1, Niš — Auto plac Euroauto</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.328836%2C21.898469" target="_blank"><span class="addr-lbl">mapa</span>Auto pijaca Niš, Heroja sa Paštrika (Niš, Crveni Krst)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">8.250 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2018 / 143k</span></div>
@@ -340,11 +383,15 @@
       <p class="mycomment"><span class="lbl">Komentar</span><strong>iz uvoza, mora da se proveri sa majstorom, carvertical, fali servisna knjiga</strong></p>
     </article>
 
-    <article class="card">
+    <article class="card top">
       <header class="card-head">
         <span class="badge">7</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29410796/hyundai-ix35-17crdi-premium" target="_blank">Hyundai ix35 1.7 CRDi Premium</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=Bulevar%2012.%20februar%20146%2C%20Ni%C5%A1" target="_blank"><span class="addr-lbl">opis</span>Bulevar 12. februar 146, Niš — Auto Avenija</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.345995%2C21.865910" target="_blank"><span class="addr-lbl">mapa</span>Bulevar 12. februar 144a (Niš, Crveni Krst)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">8.400 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 179k</span></div>
@@ -359,6 +406,10 @@
         <span class="badge">8</span>
         <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29379777/hyundai-ix35-17-crdi" target="_blank">Hyundai ix35 1.7 CRDi</a>
       </header>
+      <div class="maploc">
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=Novo%20Selo%2C%20Ni%C5%A1" target="_blank"><span class="addr-lbl">opis</span>Novo Selo, Niš — auto plac D-M</a>
+        <a class="addr maplink" href="https://www.google.com/maps/search/?api=1&query=43.315994%2C21.829173" target="_blank"><span class="addr-lbl">mapa</span>Dragutina Kocića 17a, Donje Međurovo (Niš, Palilula)</a>
+      </div>
       <div class="specs">
         <div class="spec"><span class="k">Cena</span><span class="v price">7.590 €</span></div>
         <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 194k</span></div>
