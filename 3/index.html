@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rangiranje — benzin do 8.000 € (60 oglasa)</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+    header h1 { font-size: 1.9rem; margin: 0 0 6px; }
+    header .date { color: var(--muted); font-size: 0.9rem; }
+    .intro {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 24px 0;
+    }
+    .intro strong { color: var(--gold); }
+    .intro .kriterijum-naslov {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.01em;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .intro .kriterijum { margin: 8px 0 12px; padding-left: 22px; }
+    .intro .kriterijum li { margin: 4px 0; }
+    .intro .note-inline {
+      margin: 12px 0 0;
+      padding: 8px 12px;
+      background: var(--card2);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .intro code {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    h2 { margin-top: 48px; font-size: 1.35rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3.tier { margin-top: 36px; font-size: 1.05rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Metodologija */
+    .method {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 24px 20px;
+      margin: 20px 0;
+    }
+    .method ul { padding-left: 20px; }
+    .method li { margin: 8px 0; }
+    .method .best strong { color: var(--green); }
+    .method .risk strong { color: var(--red); }
+
+    /* ===== Kartični (flex) prikaz rang-liste ===== */
+    .cards { display: flex; flex-direction: column; gap: 16px; margin: 20px 0; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+    }
+    .card.top { border-left: 4px solid var(--gold); }
+    .card.bad { border-left: 4px solid var(--red); }
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+    }
+    .card .badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      min-width: 2.2em;
+      height: 2.2em;
+      padding: 0 0.5em;
+      background: var(--card2);
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+    .card .badge.low { color: var(--muted); }
+    .card .car { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+    .specs { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+    .spec {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+      padding: 8px 16px;
+    }
+    .spec .k {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .spec .v { text-align: right; }
+    .spec .v.price { color: var(--green); font-weight: 700; white-space: nowrap; }
+    .reason {
+      margin: 0;
+      padding: 12px 16px 14px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: left;
+    }
+    .card strong, td strong, .reason strong { color: var(--text); }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    code, .mono { font-family: "Cascadia Code", "Consolas", monospace; }
+
+    .note {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 24px 24px;
+      margin: 20px 0;
+    }
+    .note ul { padding-left: 20px; }
+    .note .lead { color: var(--gold); font-weight: 700; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+<div class="wrap">
+
+  <p style="margin:0 0 14px; font-size:0.92rem;"><a href="../index.html">← nazad na početnu</a></p>
+
+  <header>
+    <h1>Rangiranje — benzin do 8.000 € (60 oglasa)</h1>
+    <div class="date">podaci povučeni 2026-06-11 · filteri: benzin · do 8.000 € · 2011+ · limuzina/karavan/SUV · region 2563 · <a href="instructions.md">instrukcije</a> · podaci po autu u <code>data/</code></div>
+  </header>
+
+  <div class="intro">
+    <p class="kriterijum-naslov">Kriterijumi po važnosti</p>
+    <ol class="kriterijum">
+      <li>pouzdanost — što manje toga da se kvari</li>
+      <li>niski troškovi održavanja — jeftini i dostupni delovi</li>
+      <li>prostran/porodičan auto</li>
+      <li>stanje (km / godište)</li>
+      <li>odnos cene i vrednosti</li>
+    </ol>
+    <p class="note-inline">ⓘ Svih 60 aktivnih oglasa sa pretrage je povučeno i rangirano; svaki auto ima svoj fajl u <code>data/</code> (sirovi JSON u <code>data/raw/</code>).</p>
+  </div>
+
+  <h2>Metodologija</h2>
+  <div class="method">
+    <p>Motori rangirani po pouzdanosti za ovaj profil:</p>
+    <ul>
+      <li class="best"><strong>Najbolje:</strong> jednostavni atmosferci sa lancem/običnim kaisom (Meriva 1.4, Cruze 1.6, Qashqai 1.6 HR16, i30 1.4, ix35 2.0 MPI) i moderni <strong>EA211 1.4/1.2 TSI</strong> (Octavia III 2014, Golf 7) — kais, bez poznatih boljki.</li>
+      <li><strong>Dobro:</strong> Opel <strong>1.4 Turbo A14NET</strong> (Astra J, Mokka) — lanac, solidan uz redovno održavanje; Hyundai/Kia <strong>1.6 GDI</strong> — pouzdan, ali direktno ubrizgavanje traži povremeno čišćenje usisa.</li>
+      <li class="risk"><strong>Rizično (pada u rang):</strong> <strong>1.2/1.4 TSI EA111</strong> (lanac/zatezač — stare Octavije, Ibize, Rapidi, Jetta, Passat B7), <strong>1.8/2.0 TSI-TFSI EA888</strong> (potrošnja ulja — Audi A4, Superb, Yeti, Octavia 1.8), <strong>1.0 EcoBoost</strong> (mokri kais + hlađenje — Focus, B-Max), <strong>1.2 PureTech/e-THP/VTi</strong> (mokri kais — Peugeot/Citroen), <strong>1.2 TCe H5Ft</strong> (potrošnja ulja — Captur, Lodgy), <strong>1.6 THP</strong> (508), <strong>DSG7/EDC</strong> automatici.</li>
+    </ul>
+  </div>
+
+  <h2>Rang-lista (od najbolje ka slabije za zadate kriterijume)</h2>
+
+  <div class="cards">
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">1</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28843788/skoda-octavia-14-tsi-ambition" target="_blank">Škoda Octavia III 1.4 TSI Ambition</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 155k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 TSI 140 KS (EA211, kais)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Liftback (~568 l)</span></div>
+        <div class="spec"><span class="k">Registracija / poreklo</span><span class="v">domaće tablice, reg. (opis: do 16.06.2027)</span></div>
+      </div>
+      <p class="reason">VIN <span class="mono">TMB…5E0…</span> potvrđuje <strong>Octaviju III → EA211</strong>, jedan od najpouzdanijih VAG benzinaca (kais, bez EA111 boljki sa lancem). <strong>Kupljen u Srbiji, održavan u ovlašćenom servisu</strong>, 2 seta guma. Najbolji spoj pouzdanosti, jeftinih delova i porodičnog prostora. Mane: manuelna klima, kozmetičke ogrebotine/grad na krovu; kais verovatno na redu (~150–200 €).</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">2</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29453564/opel-astra-j-14-turbo" target="_blank">Opel Astra J 1.4 Turbo limuzina</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 150k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina (~460 l)</span></div>
+        <div class="spec"><span class="k">Registracija / poreklo</span><span class="v">domaće tablice, reg. do 12.2027</span></div>
+      </div>
+      <p class="reason"><strong>Najmlađe godište u celoj listi</strong> i ubedljivo najbolja dokumentacija: kupljen nov u Srbiji (dec 2016), drugi vlasnik, <strong>sve fakture iz ovlašćenog servisa + servisna knjiga</strong>, nov akumulator, 2 seta felni sa gumama. A14NET pouzdan uz redovno održavanje (pratiti PCV membranu). Mana: limuzina, ne karavan.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">3</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/26180921/opel-meriva-14-ch" target="_blank">Opel Meriva B 1.4 (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 78k — najmanja km u listi</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 atmo 90 KS (A14XER, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Minivan (FlexDoors)</span></div>
+        <div class="spec"><span class="k">Registracija / poreklo</span><span class="v">uvoz CH, na ime kupca (+~450 € reg.)</span></div>
+      </div>
+      <p class="reason"><strong>Najmanja kilometraža u svih 60 oglasa.</strong> Prost atmosferski motor bez turba i direktnog ubrizgavanja — skoro ništa ne može skupo da se pokvari. Švajcarski uvoz = kilometraža proverljiva (MFK pregledi) kroz Carvertical. Najbolji odnos cene i vrednosti. Mane: 90 KS slabašno pod punim opterećenjem, štur opis — <strong>obavezna provera uživo</strong>.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">4</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc" target="_blank">Hyundai ix35 2.0 MPI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.990 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 174k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">2.0 MPI 165 KS (G4KD, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+        <div class="spec"><span class="k">Registracija / poreklo</span><span class="v">domaće tablice, reg. do 03.2027</span></div>
+      </div>
+      <p class="reason"><strong>Prvi vlasnik, kupljen nov u Srbiji, ovlašćeni servis</strong>, zimske gume. Običan port-injection motor, prostran porodični SUV, jeftini Hyundai delovi. Zašto nije više: najstarije godište u vrhu (2011) uz cenu praktično istu kao #1/#2, i 2.0 troši najviše u top 5 (9–10 l grad).</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">5</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29507623/chevrolet-cruze-16i-sport-line-ch" target="_blank">Chevrolet Cruze 1.6 Sport Line (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.499 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 177k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 atmo 124 KS</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina (~450 l)</span></div>
+        <div class="spec"><span class="k">Registracija / poreklo</span><span class="v">uvoz CH, na ime kupca</span></div>
+      </div>
+      <p class="reason">Prost i izdržljiv atmosferac, delovi (GM/Opel-srodni) među najjeftinijim na tržištu. Velika limuzina, solidna oprema (Sport Line). Mane: 2011. godište, nije registrovan.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">6</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27715921/hyundai-i30-14" target="_blank">Hyundai i30 1.4 CW karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.200 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 209k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 MPI 101 KS (G4FA, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Pouzdan i jeftin za održavanje, porodični karavan. Mane: visoka kilometraža (209k), slabašan za pun teret.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">7</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27876512/nissan-qashqai-16-urban-style" target="_blank">Nissan Qashqai 1.6 Urban Style</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.350 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 205k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 MPI 117 KS (HR16DE, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">„Neuništiv" HR16 motor, prostran porodični krosover. Mane: 205k km uz cenu od 7.350 € — skup za pređeno.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">8</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28387967/hyundai-ix35-16-gdi" target="_blank">Hyundai ix35 1.6 GDI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.100 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 176k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 GDI 135 KS (G4FD, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+        <div class="spec"><span class="k">Poreklo</span><span class="v">na ime kupca</span></div>
+      </div>
+      <p class="reason">Prostran SUV, solidan motor, 900 € jeftiniji od ix35 2.0 (#4) uz sličnu km. GDI = direktno ubrizgavanje → povremeno čišćenje usisa; manje istorije u oglasu nego #4.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">9</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28834855/kia-sportage-16-gdi" target="_blank">Kia Sportage 1.6 GDI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.650 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 197k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 GDI 135 KS (G4FD, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Sestra ix35 (ista platforma/motor). Skuplji i sa više km od #8 — zato ispod.</p>
+    </article>
+
+    <article class="card top">
+      <header class="card-head">
+        <span class="badge">10</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29349791/opel-mokka-14-ch-4x4-kuka" target="_blank">Opel Mokka 1.4T 4x4 (CH, kuka)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.799 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 168k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV (manji, ~356 l)</span></div>
+      </div>
+      <p class="reason">Najbolja od pet Mokki u listi (najmanje km). Solidan motor, ali manji gepek za porodicu i 4x4 = dodatno održavanje.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Pouzdani, ali mali ili sa visokom kilometražom (11–17)</h3>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">11</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29388735/volkswagen-golf-7-12-bluemotion" target="_blank">VW Golf 7 1.2 TSI BlueMotion</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.199 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 180k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 86 KS (EA211, kais — pouzdan)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 01.2027</span></div>
+      </div>
+      <p class="reason">Golf 7 = EA211 (novi motor, ne problematični EA111). Pouzdan i jeftin za delove, ali 86 KS, hečbek i visoka cena za ponuđeno.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">12</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28817412/dacia-sandero-12-16v" target="_blank">Dacia Sandero 1.2 16V</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 94k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 16V 75 KS (D4F — vrlo pouzdan)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2027</span></div>
+      </div>
+      <p class="reason">Druga najmanja km u listi, bulletproof motor, najjeftiniji delovi. Pada samo na kriterijumu prostora — mali je.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">13</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29503950/seat-ibiza-copa" target="_blank">Seat Ibiza ST 1.2 Copa (atmo)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 184k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 atmo 69 KS (3-cil, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan (mali)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 03.2027</span></div>
+      </div>
+      <p class="reason">Atmosferac (ne TSI!) — pouzdaniji od turbo verzija, registrovan godinu dana. Mali i spor (69 KS).</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">14</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/27706867/skoda-fabia-12-b-ch" target="_blank">Škoda Fabia 1.2 karavan (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 160k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 atmo 69 KS (3-cil, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan (mali)</span></div>
+        <div class="spec"><span class="k">Poreklo</span><span class="v">uvoz CH, na ime kupca</span></div>
+      </div>
+      <p class="reason">Prost atmosferac, jeftin, relativno mala km. Mali i slab — gradski auto, ne porodični.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">15</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29393728/skoda-fabia" target="_blank">Škoda Fabia 1.2</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.800 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 185k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 atmo 71 KS (3-cil, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Hečbek</span></div>
+        <div class="spec"><span class="k">Poreklo</span><span class="v">domaće tablice</span></div>
+      </div>
+      <p class="reason">Isto kao #14 — pouzdano i jeftino, ali malo. Hečbek, više km.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">16</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28756802/renault-clio" target="_blank">Renault Clio IV Grandtour 1.2 16V</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 182k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 16V 73 KS (D4F — vrlo pouzdan)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan (mali)</span></div>
+      </div>
+      <p class="reason">Bulletproof motor, mlado godište. Skup za ponuđeno (73 KS, 182k), karavan ali B-segment.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">17</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29304589/kia-ceed-sw-b-e-n-z-i-n" target="_blank">Kia cee'd SW 1.6 GDI karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.599 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 230k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 GDI 135 KS (G4FD, lanac)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Dobar motor i pravi porodični karavan za male pare, ali <strong>230.000 km</strong> — najviše u vrhu liste.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Solidan motor, ali manji prostor ili visoka km (18–22)</h3>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">18</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29313452/opel-mokka" target="_blank">Opel Mokka 1.4T</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.900 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 200k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 03.2027</span></div>
+      </div>
+      <p class="reason">Domaće tablice i registrovan, ali 200k km i najskuplja Mokka.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">19</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29396327/opel-mokka-14b-4x4-chbycikl" target="_blank">Opel Mokka 1.4T 4x4 (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 193k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET)</span></div>
+      </div>
+      <p class="reason">OK motor, ali 193k + 4x4 održavanje + nije registrovan.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">20</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29575279/opel-mokka-14-t-4x4-ch" target="_blank">Opel Mokka 1.4T 4x4 (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.499 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 194k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET)</span></div>
+      </div>
+      <p class="reason">Kao #19, ali starije godište (2012).</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">21</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28808122/opel-mokka-144x4svajcarska" target="_blank">Opel Mokka 1.4T 4x4 (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.990 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 218k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 Turbo 140 KS (A14NET)</span></div>
+      </div>
+      <p class="reason">Najjeftinija Mokka, ali i najviše km (218k).</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">22</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29393809/citroen-nemo" target="_blank">Citroen Nemo 1.4</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.850 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 190k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 atmo 73 KS (TU3 — robustan)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Kombi/van</span></div>
+      </div>
+      <p class="reason">Prost i izdržljiv motor, ogroman tovarni prostor — ali dostavno vozilo, ne porodični auto.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Prostrani, ali rizičan motor — kupovati samo uz dokaz o servisu (23–36)</h3>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">23</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29546572/skoda-yeti-18i-4x4-elegance-ch" target="_blank">Škoda Yeti 1.8 TSI 4x4 Elegance (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 96k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 160 KS (EA888 — potrošnja ulja!)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">SUV</span></div>
+      </div>
+      <p class="reason">Mala kilometraža mami, ali <strong>EA888 gen2 = poznata potrošnja ulja + lanac</strong>, plus Haldex 4x4. Najbolje stanje u rizičnoj grupi — uz proveren motor može biti dobra kupovina.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">24</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29397738/skoda-octavia-ambiente-ch" target="_blank">Škoda Octavia II 1.2 TSI karavan (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.899 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 185k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 KS (EA111 — lanac/zatezač!)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Prostran karavan za male pare. EA111 lanac je poznata boljka — kupovati samo sa dokazom da je lanac menjan (ili uračunati ~250–350 €).</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">25</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28786316/skoda-octavia-12tsi" target="_blank">Škoda Octavia II 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.150 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 185k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 KS (EA111)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Limuzina</span></div>
+      </div>
+      <p class="reason">Kao #24, ali skuplja — 1.250 € razlike za godinu mlađe.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">26</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29582639/skoda-octavia-7-7-k-w-business" target="_blank">Škoda Octavia II 1.2 TSI Business</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.400 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 209k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 KS (EA111)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2026</span></div>
+      </div>
+      <p class="reason">Domaće tablice, ali visoka km + EA111 rizik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">27</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29366465/skoda-octavia-18fsi-ch" target="_blank">Škoda Octavia II 1.8 TSI karavan automatik (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 156k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 160 KS (EA888)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Jeftin prostran karavan sa relativno malom km, ali EA888 (ulje) + automatik = dupli rizik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">28</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28464238/dacia-lodgy" target="_blank">Dacia Lodgy 1.2 TCe</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 135k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TCe 116 KS (H5Ft — potrošnja ulja!)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan/MPV</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2026</span></div>
+      </div>
+      <p class="reason"><strong>Najveći prostor za pare u celoj listi</strong> i pristojna km — ali 1.2 TCe (H5Ft) ima ozbiljnu reputaciju trošenja ulja. Proveriti nivo ulja i kompresiju; sa zdravim motorom odličan porodični izbor.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">29</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28453915/skoda-octavia-12tsidsgsvajcarija" target="_blank">Škoda Octavia II 1.2 TSI DSG (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.699 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 198k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI (EA111) + DSG7 (DQ200!)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">EA111 lanac + DSG7 mehatronika/kvačila = dva poznata rizika u jednom autu.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">30</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29438506/skoda-superb" target="_blank">Škoda Superb 1.8 TSI karavan automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.300 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 197k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 160 KS (EA888) + automatik</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 11.2026</span></div>
+      </div>
+      <p class="reason">Ogroman prostor za male pare, registrovan — ali EA888 + automatik na 197k km je ozbiljan rizik troškova.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">31</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29549179/volkswagen-jetta" target="_blank">VW Jetta 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.100 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 237k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 KS (EA111)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 01.2027</span></div>
+      </div>
+      <p class="reason">237.000 km + EA111 + cena od 6.100 € — loš odnos.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">32</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29449361/skoda-superb" target="_blank">Škoda Superb 1.8 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 206k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 159 KS (EA888)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 04.2027</span></div>
+      </div>
+      <p class="reason">Pun budžet za 2011/206k sa rizičnim motorom — za iste pare postoji Octavia III (#1).</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">33</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28833411/skoda-octavia" target="_blank">Škoda Octavia 1.8 TSI 179 karavan automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 236k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 179 KS (EA888) + automatik</span></div>
+      </div>
+      <p class="reason">236k km + EA888 + automatik — visok rizik.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">34</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28833481/skoda-octavia" target="_blank">Škoda Octavia 1.8 TSI 179 karavan automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.599 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 223k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TSI 179 KS (EA888) + automatik</span></div>
+      </div>
+      <p class="reason">Kao #33, mlađa ali skuplja; isti rizici.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">35</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29096400/volkswagen-passat-b7-14-tsi-bluemotion" target="_blank">VW Passat B7 1.4 TSI karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 206k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 TSI 122 KS (EA111 CAXA — lanac)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 01.2027</span></div>
+      </div>
+      <p class="reason">Prostran porodični karavan, registrovan — ali CAXA lanac + 206k. Samo uz dokaz o menjanom lancu.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">36</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28459326/volkswagen-passat-b7-14-tsi-dsg" target="_blank">VW Passat B7 1.4 TSI DSG karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.900 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 196k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.4 TSI (EA111) + DSG7 (DQ200!)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 05.2027</span></div>
+      </div>
+      <p class="reason">Lanac + DSG7 = dupli rizik, kao #29 samo veći auto.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Audi A4 — dobar auto, skupo održavanje + EA888 (37–40)</h3>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">37</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28240513/audi-a4-18-tfsi" target="_blank">Audi A4 1.8 TFSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.600 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 122k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TFSI 120 KS (EA888 — ulje!)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 10.2026</span></div>
+      </div>
+      <p class="reason">Najmanja km od Audija (122k), ali EA888 gen2 potrošnja ulja + skupi Audi delovi ruše kriterijume 1 i 2.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">38</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28724751/audi-a4-20b-s-line-quatroch" target="_blank">Audi A4 2.0 TFSI quattro S-line (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.250 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 198k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">2.0 TFSI 211 KS (EA888) + quattro</span></div>
+      </div>
+      <p class="reason">Jak i opremljen, ali EA888 ulje + quattro + 198k = najskuplje moguće održavanje.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">39</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29436592/audi-a4-18-tfsi-avant" target="_blank">Audi A4 1.8 TFSI Avant automatik</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">8.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 217k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TFSI 170 KS (EA888) + automatik</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 10.2026</span></div>
+      </div>
+      <p class="reason">Pun budžet za 217k km sa rizičnim motorom i automatikom.</p>
+    </article>
+
+    <article class="card">
+      <header class="card-head">
+        <span class="badge">40</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28224855/audi-a4-18-tfsi" target="_blank">Audi A4 1.8 TFSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.000 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 221k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.8 TFSI 120 KS (EA888)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 08.2026</span></div>
+      </div>
+      <p class="reason">221k km — najistrošeniji Audi u listi.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Mokri kais i ostali rizični (41–54) — izbegavati ili samo uz dokaz o zamenjenom kaisu</h3>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">41</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28875673/peugeot-2008-allure" target="_blank">Peugeot 2008 1.2 e-THP Allure</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.950 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 144k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 PureTech 110 (mokri kais!)</span></div>
+      </div>
+      <p class="reason">Najbolje stanje u PSA grupi, ali mokri kais u ulju — poznata boljka; tražiti dokaz o zameni.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">42</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29390599/peugeot-2008-12e-thp-allure-ch" target="_blank">Peugeot 2008 1.2 e-THP Allure (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 159k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 PureTech 110 (mokri kais!)</span></div>
+      </div>
+      <p class="reason">Isto kao #41, jeftiniji ali stariji i nije registrovan.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">43</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28887412/peugeot-2008-12-b" target="_blank">Peugeot 2008 1.2 (82 KS)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 154k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 PureTech 82 atmo (mokri kais)</span></div>
+      </div>
+      <p class="reason">Atmo verzija (bez turba), ali i ona ima kais u ulju + slabašna za SUV.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">44</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29391582/citroen-c3-12-b" target="_blank">Citroen C3 1.2</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.550 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2017 / 170k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 PureTech 82 (mokri kais)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2027</span></div>
+      </div>
+      <p class="reason">Mlad i registrovan, ali mokri kais + mali auto + skup.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">45</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28225518/citroen-c-elysee-c4" target="_blank">Citroen C-Elysee 1.2</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2016 / 175k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 PureTech 82 (mokri kais)</span></div>
+      </div>
+      <p class="reason">Jeftina limuzina, ali isti rizik kaisa + 82 KS.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">46</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29545921/peugeot-308-12i-allure-line-ch" target="_blank">Peugeot 308 SW 1.2 e-THP automatik (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.499 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2015 / 165k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 e-THP 131 (mokri kais) + automatik</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Prostran karavan za male pare, ali mokri kais + automatik = dva rizika.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">47</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28803042/ford-focus-10-125cv-svajcarska" target="_blank">Ford Focus 1.0 EcoBoost karavan (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.950 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 129k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.0 EcoBoost 125 (mokri kais + hlađenje!)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Najmanja km od Focusa, ali rani 1.0 EcoBoost: mokri kais + poznati problemi hlađenja (degas crevo, glava).</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">48</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29545962/ford-focus-10i-trend-line-ch" target="_blank">Ford Focus 1.0 EcoBoost karavan (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.799 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 162k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.0 EcoBoost 125 (mokri kais)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">Karavan</span></div>
+      </div>
+      <p class="reason">Vrlo jeftin porodični karavan — cena odražava rizik motora.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">49</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28807472/ford-focus" target="_blank">Ford Focus 1.0 EcoBoost karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.500 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 209k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.0 EcoBoost 101 (mokri kais)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2026</span></div>
+      </div>
+      <p class="reason">Registrovan, ali 209k na rizičnom motoru.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">50</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29454527/ford-b-max" target="_blank">Ford B-Max 1.0 EcoBoost</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.200 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 178k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.0 EcoBoost 120 (mokri kais)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 10.2026</span></div>
+      </div>
+      <p class="reason">Praktičan mini-MPV sa kliznim vratima, ali isti EcoBoost rizik.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">51</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29546187/renault-captur-12i-dynamique-ch" target="_blank">Renault Captur 1.2 TCe automatik (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">7.699 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 186k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TCe 120 (H5Ft — ulje!) + EDC automatik</span></div>
+      </div>
+      <p class="reason">H5Ft potrošnja ulja + EDC automatik + visoka cena = izbegavati.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">52</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29111188/renault-captur-09-tce" target="_blank">Renault Captur 0.9 TCe</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">6.550 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 227k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">0.9 TCe 90 KS</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 11.2026</span></div>
+      </div>
+      <p class="reason">227.000 km na malom trocilindrašu — previše za tu cenu.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">53</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29510484/peugeot-508" target="_blank">Peugeot 508 1.6 THP karavan</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.300 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 223k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.6 THP 156 (Prince — lanac/karbon!)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 07.2026</span></div>
+      </div>
+      <p class="reason">Najjeftiniji veliki karavan — jeftin s razlogom: THP lanac, karbon, 223k km.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">54</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29393770/peugeot-5008" target="_blank">Peugeot 5008</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.850 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 180k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">~1.5/1.6 (101 KS — nejasno u oglasu)</span></div>
+        <div class="spec"><span class="k">Karoserija</span><span class="v">MPV (7 mesta)</span></div>
+      </div>
+      <p class="reason">Najviše sedišta za najmanje para, ali nejasna specifikacija motora u oglasu (verovatno EP6 — rizik) — proveriti pre svega.</p>
+    </article>
+
+    <h3 class="tier" style="margin:20px 0 4px; border:none; padding:0;">Mali + rizičan EA111 1.2 TSI motor (55–60)</h3>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">55</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29316157/seat-ibiza" target="_blank">Seat Ibiza ST 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.650 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 158k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 (EA111 — lanac!)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 10.2026</span></div>
+      </div>
+      <p class="reason">Najjeftinija i najmanje pređena u grupi, registrovana — ali EA111 lanac i mali auto.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">56</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29494890/seat-ibiza-12-tsi-copa-ch" target="_blank">Seat Ibiza ST 1.2 TSI Copa (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">4.250 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2012 / 173k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 (EA111)</span></div>
+      </div>
+      <p class="reason">EA111 + uvoz bez registracije.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">57</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28437021/skoda-rapid-12-tsi" target="_blank">Škoda Rapid 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.750 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2014 / 192k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 86 (EA111)</span></div>
+      </div>
+      <p class="reason">Veliki gepek za klasu, ali EA111 + visoka cena za rizik.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">58</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28151142/skoda-rapid-tsi" target="_blank">Škoda Rapid 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">5.700 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2013 / 215k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 88 (EA111)</span></div>
+        <div class="spec"><span class="k">Registracija</span><span class="v">domaće, reg. do 06.2026</span></div>
+      </div>
+      <p class="reason">215k km + EA111.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">59</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/28055217/seat-ibiza-12-tsi-st" target="_blank">Seat Ibiza ST 1.2 TSI</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.850 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 205k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 (EA111)</span></div>
+      </div>
+      <p class="reason">205k + EA111 + uvoz bez registracije.</p>
+    </article>
+
+    <article class="card bad">
+      <header class="card-head">
+        <span class="badge low">60</span>
+        <a class="car" href="https://www.polovniautomobili.com/auto-oglasi/29491479/seat-ibiza-12-tsi-ch-nov-nov" target="_blank">Seat Ibiza ST 1.2 TSI (CH)</a>
+      </header>
+      <div class="specs">
+        <div class="spec"><span class="k">Cena</span><span class="v price">3.999 €</span></div>
+        <div class="spec"><span class="k">God. / km</span><span class="v">2011 / 219k</span></div>
+        <div class="spec"><span class="k">Motor</span><span class="v">1.2 TSI 105 (EA111)</span></div>
+      </div>
+      <p class="reason">Najviše km u grupi (219k) + EA111 — poslednje mesto.</p>
+    </article>
+
+  </div>
+
+  <h2>Napomene</h2>
+  <div class="note">
+    <ul>
+      <li><span class="lead">Pre kupovine obavezno:</span> provera na dizalici + kompresija, Carvertical za uvoze (CH uvozi imaju pouzdanu MFK istoriju kilometraže), dijagnostika.</li>
+      <li>Za <strong>#1 Octaviju III</strong>: proveriti da li je rađen servis kaisa (EA211 interval ~120–150k km / 6–8 god — verovatno je na redu, ~150–200 €).</li>
+      <li>Za <strong>#3 Merivu</strong>: rang je uslovan — istorija nije dokumentovana u oglasu, pa mora da „zasluži" mesto proverom (Carvertical + pregled). Ako provera ne prođe, precrtati.</li>
+      <li>CH uvozi „na ime kupca" nisu registrovani — dodati ~400–500 € na cenu za registraciju/prevod.</li>
+      <li>Rang-grupe 23+ nisu automatski „loši auti" — to su dobri modeli sa motorima koji traže dokaz o održavanju; sa dokumentovanim servisom pojedinačni primerak može da skoči naviše.</li>
+    </ul>
+  </div>
+
+</div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

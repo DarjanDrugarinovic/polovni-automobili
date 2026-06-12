@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="sr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polovni automobili — pretrage i rangiranja</title>
+  <style>
+    :root, [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --card2: #eef1f6;
+      --border: #d8dee8;
+      --text: #1c2128;
+      --muted: #5a6675;
+      --accent: #1565d8;
+      --gold: #b8860b;
+      --green: #1a8a4a;
+      --red: #d93636;
+      --hover: #f0f3f8;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1115;
+      --card: #181b22;
+      --card2: #1e222b;
+      --border: #2a2f3a;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #4fa3ff;
+      --gold: #ffd24a;
+      --green: #4ade80;
+      --red: #f87171;
+      --hover: #20242e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 48px 20px 80px; }
+    header h1 { font-size: 1.9rem; margin: 0 0 6px; }
+    header .date { color: var(--muted); font-size: 0.9rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .links { display: flex; flex-direction: column; gap: 18px; margin: 32px 0; }
+    a.search-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 14px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    a.search-card:hover { background: var(--hover); text-decoration: none; }
+    .search-card .num {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.4em;
+      height: 2.4em;
+      background: var(--card2);
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--gold);
+    }
+    .search-card .body { flex: 1; }
+    .search-card .title { display: block; font-size: 1.15rem; font-weight: 700; line-height: 1.35; }
+    .search-card .desc { display: block; color: var(--muted); font-size: 0.92rem; margin-top: 3px; }
+    .search-card .meta { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+    .search-card .meta strong { color: var(--green); }
+    .theme-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 1000;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Promeni temu">
+    <span id="themeIcon">☀️</span><span id="themeLabel">Svetla</span>
+  </button>
+<div class="wrap">
+
+  <header>
+    <h1>Polovni automobili — pretrage i rangiranja</h1>
+    <div class="date">tri pretrage polovniautomobili.com sa rangiranjem po kriterijumima kupca</div>
+  </header>
+
+  <div class="links">
+
+    <a class="search-card" href="1/index.html">
+      <span class="num">1</span>
+      <span class="body">
+        <span class="title">Pretraga #1 — atmo benzin, porodični auto</span>
+        <span class="desc">4.000–8.000 €, samo benzin (bez turba i TNG), karavan/SUV/monovolumen, region Niš. Kriterijumi: prostor, pouzdanost, jednostavnost motora (atmo, lanac). Uz rangiranje ide i teorija (atmo vs turbo, MPI vs GDI, lanac vs kais…).</span>
+        <span class="meta">ažurirano 2026-06-03 · 15 rangiranih kandidata</span>
+      </span>
+    </a>
+
+    <a class="search-card" href="2/index.html">
+      <span class="num">2</span>
+      <span class="body">
+        <span class="title">Pretraga #2 — dizel ravnopravan sa benzinom</span>
+        <span class="desc">Do ~9.000 €, profil ~9.000 km/god (6k put + 3k grad), region Niš. Dizel prihvatljiv ako je dokazan i bez problematičnog DPF/EGR/dvomasenog zamajca. Sa lokacijama prodavaca na Google mapama.</span>
+        <span class="meta">ažurirano 2026-06-04 · 32 rangirana kandidata</span>
+      </span>
+    </a>
+
+    <a class="search-card" href="3/index.html">
+      <span class="num">3</span>
+      <span class="body">
+        <span class="title">Pretraga #3 — benzin do 8.000 €, svi oglasi sa filtera</span>
+        <span class="desc">Benzin, do 8.000 €, godište 2011+, limuzina/karavan/SUV, region Niš. Povučeno i rangirano svih 60 aktivnih oglasa; podaci po autu sačuvani u <code>3/data/</code>. Kriterijumi: pouzdanost → troškovi održavanja → prostor → stanje → cena/vrednost.</span>
+        <span class="meta">ažurirano 2026-06-11 · <strong>60 rangiranih oglasa</strong></span>
+      </span>
+    </a>
+
+  </div>
+
+</div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var btn = document.getElementById('themeToggle');
+
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        var dark = theme === 'dark';
+        icon.textContent = dark ? '🌙' : '☀️';
+        label.textContent = dark ? 'Tamna' : 'Svetla';
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+
+      var saved;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      apply(saved || 'light');
+
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>
