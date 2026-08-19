@@ -91,40 +91,25 @@ MCP server iz ovog projekta — potvrdi sa **Yes**. Status proveri komandom `/mc
 
 ## 3. Kako da kažeš Claude-u da koristi ovaj MCP
 
-Claude neće uvek sam pogoditi da mu treba browser — **reci mu izričito**. Primeri
-promptova koje možeš da nalepiš:
-
-**Otvaranje jednog oglasa:**
-
-```
-Koristi chrome-devtools MCP: navigate_page na
-https://www.polovniautomobili.com/auto-oglasi/29362524/hyundai-ix35-20-dohc
-pa mi preko take_snapshot izvuci cenu, godište, kilometražu, kubikažu, snagu,
-gorivo, menjač i opis. WebFetch ne radi na ovom sajtu (403).
-```
-
-**Masovno povlačenje sa filtera:**
+Claude neće uvek sam pogoditi da mu treba browser — **reci mu izričito da koristi
+chrome-devtools MCP**. Ne moraš da znaš tehničke detalje; dovoljno je da opišeš šta
+hoćeš svojim rečima. Primer:
 
 ```
-Koristi chrome-devtools MCP. Prvo navigate_page na polovniautomobili.com (zbog
-same-origin pravila), pa iz evaluate_script pusti fetch() ka URL-u pretrage i
-isparsiraj sve oglase. Ne koristi take_snapshot na listi rezultata — prevelika je;
-veliki JSON snimi na disk preko filePath argumenta evaluate_script-a.
+Koristi chrome-devtools MCP i povuci sve oglase sa polovniautomobili.com koji
+su benzinci, bez dvomasenog zamajca i slično. Za svaki oglas iz liste otvori
+stranicu oglasa i pročitaj kubikažu i broj brzina — naslov oglasa ne razlikuje
+atmo od turba.
 ```
 
-**Provera da li je motor turbo ili atmosferski:**
+Detaljnije, „tehničke" promptove koji su korišćeni za gotove pretrage možeš da
+pogledaš i kopiraš iz:
 
-```
-Za svaki oglas iz liste otvori stranicu oglasa kroz chrome-devtools MCP i pročitaj
-KUBIKAŽU i broj brzina — naslov oglasa ne razlikuje atmo od turba.
-```
+- [1/instructions.md](1/instructions.md) — prompt za pretragu #1
+- [2/cars.md](2/cars.md) — prompt za pretragu #2
+- [3/instructions.md](3/instructions.md) — prompt za pretragu #3
 
-Dva pravila koja se najviše isplate (naučena kroz ove pretrage):
-
-1. **`navigate_page` na polovniautomobili.com PRE `fetch()`** — inače CORS blokira zahtev.
-2. **Ne oslanjaj se na CSS klase** — sajt ih menja. Gotova, selektor-nezavisna skripta za
-   povlačenje oglasa je u [1/instructions.md](1/instructions.md) — samo je nalepi u
-   `evaluate_script`.
+Njih možeš uzeti kao šablon za svoju četvrtu pretragu (vidi sekciju **5**).
 
 ---
 
